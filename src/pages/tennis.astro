@@ -1,0 +1,305 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from '../layouts/Page.astro';
+
+const gallery = [
+	{
+		src: '/assets/images/home/paul-wang.jpg',
+		alt: 'Center court moment',
+		intro: 'One of my favorite courts I have visited so far.',
+		location: 'Wimbledon, London, UK',
+		tags: ['Courts', 'Trips'],
+	},
+	{
+		src: '/assets/images/home/dark-hero.jpg',
+		alt: 'Training day',
+		intro: 'Focused session on serve rhythm and second-ball consistency.',
+		location: 'Chicago, Illinois, USA',
+		tags: ['Practice'],
+	},
+	{
+		src: '/assets/images/home/earth-hero.jpg',
+		alt: 'Outdoor practice',
+		intro: 'Baseline drills and footwork blocks.',
+		location: 'Evanston, Illinois, USA',
+		tags: ['Practice', 'Equipments'],
+	},
+	{
+		src: '/assets/images/home/ocean-hero.jpg',
+		alt: 'Travel tennis',
+		intro: 'A match-day warm-up during a trip.',
+		location: 'Santa Monica, California, USA',
+		tags: ['Trips', 'Matches'],
+	},
+];
+
+const tennisTags = ['All', ...new Set(gallery.flatMap((item) => item.tags || []))];
+
+const tennisVideos = [
+	{
+		title: 'Practice Video 1',
+		url: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
+		note: 'Replace this link with your own tennis YouTube video.',
+	},
+];
+
+const toEmbedUrl = (url) => {
+	const match = url.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+	return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+};
+---
+
+<Layout
+	seo={{
+		title: 'Tennis | Paul (Zechong) Wang',
+		description: 'Tennis gallery and story-style highlights by Paul Wang.',
+	}}
+>
+	<Container>
+		<section class="insta-page__section">
+			<div class="insta-profile__header">
+				<img
+					class="insta-profile__photo"
+					src="/assets/images/tennis/logo-placeholder.jpg"
+					alt="Tennis logo placeholder"
+				/>
+				<div>
+					<h1>Tennis</h1>
+					<p>
+						Match, training, courts, equipment updates.
+					</p>
+				</div>
+			</div>
+
+			<div class="story-highlights__row">
+				{
+					tennisTags.map((tag) => (
+						<button
+							type="button"
+							class={`story-chip ${tag === 'All' ? 'story-chip--active' : ''}`}
+							data-tennis-filter-tag={tag}
+						>
+							{tag}
+						</button>
+					))
+				}
+			</div>
+
+			<div class="gallery-grid__container">
+				{
+					gallery.map((item, index) => (
+						<article
+							class="gallery-card__item"
+							data-tennis-card
+							data-tennis-card-tags={(item.tags || []).join('|').toLowerCase()}
+						>
+							<button
+								type="button"
+								class="gallery-card__button"
+								data-tennis-photo-index={index}
+							>
+								<img src={item.src} alt={item.alt} loading="lazy" />
+							</button>
+						</article>
+					))
+				}
+			</div>
+
+			<dialog id="tennisDialog" class="post-dialog__container">
+				<button type="button" class="dialog-close__button" id="tennisDialogClose">
+					Close
+				</button>
+				<img id="tennisDialogImage" alt="" />
+				<h2 id="tennisDialogTitle"></h2>
+				<p id="tennisDialogIntro"></p>
+				<p><strong>Where:</strong> <span id="tennisDialogLocation"></span></p>
+				<p><strong>Tags:</strong> <span id="tennisDialogTags"></span></p>
+			</dialog>
+		</section>
+
+		<section class="video-section__container">
+			<h2>Tennis Videos</h2>
+			<p>Share your tennis videos through YouTube links.</p>
+			{
+				tennisVideos.map((video) => (
+					<article class="video-card__item">
+						<h3>{video.title}</h3>
+						<p>{video.note}</p>
+						<p><a href={video.url} target="_blank" rel="noreferrer">{video.url}</a></p>
+						{
+							toEmbedUrl(video.url) && (
+								<iframe
+									src={toEmbedUrl(video.url)}
+									title={video.title}
+									loading="lazy"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen
+								/>
+							)
+						}
+					</article>
+				))
+			}
+		</section>
+	</Container>
+</Layout>
+
+<script define:vars={{ gallery }}>
+	const tennisDialog = document.querySelector('#tennisDialog');
+	const tennisDialogClose = document.querySelector('#tennisDialogClose');
+	const tennisDialogImage = document.querySelector('#tennisDialogImage');
+	const tennisDialogTitle = document.querySelector('#tennisDialogTitle');
+	const tennisDialogIntro = document.querySelector('#tennisDialogIntro');
+	const tennisDialogLocation = document.querySelector('#tennisDialogLocation');
+	const tennisDialogTags = document.querySelector('#tennisDialogTags');
+	const tennisButtons = document.querySelectorAll('[data-tennis-photo-index]');
+	const tagButtons = document.querySelectorAll('[data-tennis-filter-tag]');
+	const tennisCards = document.querySelectorAll('[data-tennis-card]');
+
+	tennisButtons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const index = Number(button.getAttribute('data-tennis-photo-index'));
+			const item = gallery[index];
+			if (!item || !tennisDialog) return;
+			tennisDialogImage.setAttribute('src', item.src);
+			tennisDialogImage.setAttribute('alt', item.alt);
+			tennisDialogTitle.textContent = item.alt;
+			tennisDialogIntro.textContent = item.intro;
+			tennisDialogLocation.textContent = item.location;
+			tennisDialogTags.textContent = (item.tags || []).join(', ');
+			tennisDialog.showModal();
+		});
+	});
+
+	tennisDialogClose?.addEventListener('click', () => {
+		tennisDialog?.close();
+	});
+
+	tagButtons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const selectedTag = (button.getAttribute('data-tennis-filter-tag') || 'All').toLowerCase();
+
+			tagButtons.forEach((chip) => chip.classList.remove('story-chip--active'));
+			button.classList.add('story-chip--active');
+
+			tennisCards.forEach((card) => {
+				if (selectedTag === 'all') {
+					card.removeAttribute('hidden');
+					return;
+				}
+				const tags = card.getAttribute('data-tennis-card-tags') || '';
+				if (tags.split('|').includes(selectedTag)) {
+					card.removeAttribute('hidden');
+				} else {
+					card.setAttribute('hidden', 'true');
+				}
+			});
+		});
+	});
+</script>
+
+<style>
+	.insta-page__section {
+		margin: var(--section-margin) auto;
+	}
+	.insta-profile__header {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: 1rem;
+	}
+	.insta-profile__photo {
+		width: 120px;
+		height: 120px;
+		object-fit: cover;
+		border-radius: 999px;
+		border: 3px solid var(--theme-primary);
+	}
+	.story-highlights__row {
+		margin: 1.5rem 0;
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.story-chip {
+		padding: 0.5rem 0.9rem;
+		border-radius: 999px;
+		border: 1px solid var(--theme-outline);
+		background: var(--theme-surface-1);
+		color: inherit;
+		cursor: pointer;
+	}
+	.story-chip--active {
+		background: var(--theme-primary);
+		color: var(--theme-on-primary);
+		border-color: var(--theme-primary);
+	}
+	.gallery-grid__container {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.75rem;
+	}
+	.gallery-card__item {
+		aspect-ratio: 1 / 1;
+		overflow: hidden;
+		border-radius: 12px;
+	}
+	.gallery-card__button {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+	}
+	.gallery-card__item img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.post-dialog__container {
+		width: min(720px, 92vw);
+		border: none;
+		border-radius: 12px;
+		padding: 1rem;
+	}
+	.post-dialog__container::backdrop {
+		background: rgba(0, 0, 0, 0.65);
+	}
+	.post-dialog__container img {
+		width: 100%;
+		max-height: 420px;
+		object-fit: cover;
+		border-radius: 10px;
+		margin-bottom: 1rem;
+	}
+	.dialog-close__button {
+		border: 1px solid var(--theme-outline);
+		background: var(--theme-surface-1);
+		border-radius: 8px;
+		padding: 0.35rem 0.7rem;
+		cursor: pointer;
+		margin-bottom: 0.75rem;
+	}
+	.video-section__container {
+		margin: var(--section-margin) auto;
+	}
+	.video-card__item {
+		padding: 1rem;
+		border: 1px solid var(--theme-outline);
+		border-radius: var(--theme-shape-radius);
+		background: var(--theme-surface-1);
+	}
+	.video-card__item iframe {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		border: 0;
+		border-radius: 10px;
+	}
+	@media (max-width: 768px) {
+		.gallery-grid__container {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+</style>

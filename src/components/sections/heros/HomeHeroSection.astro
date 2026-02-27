@@ -1,0 +1,147 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Container } from '@components/odyssey-theme';
+import {ThemeSwitcher} from '../../theme-switcher/theme-switcher';
+---
+
+<Container>
+	<section class="hero-section__section">
+		<div class="hero-section__text">
+				<h1><span class="hero-name__line">Paul (Zechong)</span><br />Wang</h1>
+				<p>
+					I am Paul (Zechong) Wang. Welcome to my academic personal webpage,
+					where I share my research, writing, photography, and tennis interests.
+				</p>
+				<div class="hero-btns__container">
+					<a class="know-more-btn" href="/about-me">
+						Know more about me
+						<span class="know-more-btn__icon">
+							<Icon name="ic:baseline-chevron-right"/>
+						</span>
+					</a>
+				</div>
+        <ThemeSwitcher client:only/>
+		</div>
+		<div class="hero-section__image">
+				<picture>
+					<img
+						src="/assets/images/home/paul-wang.jpg?v=1"
+						alt="Paul (Zechong) Wang portrait"
+						id="home-hero-image"
+					/>
+				</picture>
+		</div>
+	</section>
+	<section class="hero-links__section">
+		<a class="hero-link__card" href="/research">
+			<h2>Research</h2>
+			<p>Project modules with clickable details and notes.</p>
+		</a>
+		<a class="hero-link__card" href="/blog">
+			<h2>Blog</h2>
+			<p>Writing, reflections, and updates.</p>
+		</a>
+		<a class="hero-link__card" href="/photograph">
+			<h2>Photograph</h2>
+			<p>Instagram-like gallery and story highlights.</p>
+		</a>
+		<a class="hero-link__card" href="/tennis">
+			<h2>Tennis</h2>
+			<p>Match moments, training photos, and stories.</p>
+		</a>
+	</section>
+</Container>
+
+<style>
+	.hero-section__section {
+		margin: var(--section-margin) auto;
+		min-height: clamp(82vh, 92vw, calc(100vh - var(--navbar-height)));
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
+		gap: 1rem;
+	}
+	.hero-name__line {
+		white-space: nowrap;
+	}
+	.hero-section__text {
+		justify-self: center;
+		max-width: 25rem;
+	}
+	.hero-btns__container {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	.hero-btns__container {
+		margin-right: 1rem;
+	}
+	.know-more-btn {
+		padding: 0.72rem 1.1rem;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		border-radius: 10px;
+		text-decoration: none;
+		color: #ffffff;
+		background: #111827;
+		border: 1px solid #111827;
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+		font-weight: 700;
+		letter-spacing: 0.01em;
+		transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+	}
+	.know-more-btn:hover {
+		background: #1f2937;
+		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+		transform: translateY(-1px);
+	}
+	.know-more-btn:focus-visible {
+		outline: 3px solid rgba(59, 130, 246, 0.45);
+		outline-offset: 2px;
+	}
+	.know-more-btn__icon :global(svg) {
+		width: 18px;
+		height: 18px;
+	}
+	.hero-section__image {
+		display: flex;
+	}
+	.hero-section__image img {
+		width: 100%;
+		height: 100%;
+		max-height: 80vh;
+		object-fit: cover;
+		border-radius: var(--theme-shape-radius);
+	}
+	.hero-links__section {
+		margin-top: -0.75rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+	.hero-link__card {
+		padding: 1rem;
+		border: 1px solid var(--theme-outline);
+		border-radius: var(--theme-shape-radius);
+		text-decoration: none;
+		color: inherit;
+		background: var(--theme-surface-1);
+	}
+	.hero-link__card h2 {
+		margin-bottom: 0.5rem;
+		font-size: var(--font-size-lg);
+	}
+	.hero-link__card p {
+		margin-bottom: 0;
+		opacity: 0.8;
+	}
+	@media (max-width: 768px) {
+		.hero-section__section {
+			grid-template-columns: 1fr;
+		}
+		.hero-links__section {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

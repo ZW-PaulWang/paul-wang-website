@@ -1,0 +1,92 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from '../layouts/Page.astro';
+
+const projects = [
+	{
+		title: 'Project 1: Market Microstructure and Liquidity',
+		summary: 'Empirical analysis of intraday liquidity and price impact.',
+		details:
+			'This project studies order flow imbalance, spread dynamics, and execution costs using high-frequency transaction data. I focus on identifying robust liquidity predictors across market regimes.',
+	},
+	{
+		title: 'Project 2: Causal Inference in Applied Economics',
+		summary: 'Policy evaluation with quasi-experimental methods.',
+		details:
+			'This project uses difference-in-differences and event-study designs to estimate policy effects. Ongoing work includes sensitivity checks and heterogeneous treatment analysis.',
+	},
+	{
+		title: 'Project 3: Machine Learning for Forecasting',
+		summary: 'Interpretable forecasting pipelines for structured data.',
+		details:
+			'I compare tree-based and regularized models for forecasting performance, with emphasis on calibration, interpretability, and out-of-sample stability.',
+	},
+];
+---
+
+<Layout
+	seo={{
+		title: 'Research | Paul (Zechong) Wang',
+		description:
+			'Research projects by Paul (Zechong) Wang with expandable details.',
+	}}
+>
+	<Container>
+		<section class="research-page__section">
+			<h1>Research</h1>
+			<p>
+				Click each project title module to expand details. You can replace these
+				entries with your actual papers and ongoing work.
+			</p>
+			<div class="research-modules__container">
+				{
+					projects.map((project) => (
+						<details class="research-module__item">
+							<summary>
+								<h2>{project.title}</h2>
+								<p>{project.summary}</p>
+							</summary>
+							<div class="research-module__details">
+								<p>{project.details}</p>
+							</div>
+						</details>
+					))
+				}
+			</div>
+		</section>
+	</Container>
+</Layout>
+
+<style>
+	.research-page__section {
+		margin: var(--section-margin) auto;
+	}
+	.research-modules__container {
+		margin-top: 1.5rem;
+		display: grid;
+		gap: 1rem;
+	}
+	.research-module__item {
+		border: 1px solid var(--theme-outline);
+		border-radius: var(--theme-shape-radius);
+		background: var(--theme-surface-1);
+	}
+	.research-module__item summary {
+		list-style: none;
+		padding: 1rem;
+		cursor: pointer;
+	}
+	.research-module__item summary::-webkit-details-marker {
+		display: none;
+	}
+	.research-module__item h2 {
+		margin-bottom: 0.35rem;
+		font-size: var(--font-size-xl);
+	}
+	.research-module__item p {
+		margin-bottom: 0;
+	}
+	.research-module__details {
+		padding: 0 1rem 1rem;
+	}
+</style>

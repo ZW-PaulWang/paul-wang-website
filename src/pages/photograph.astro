@@ -1,0 +1,212 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from '../layouts/Page.astro';
+
+const stories = ['Travel', 'Campus', 'Street', 'Portraits', 'Sunsets'];
+const gallery = [
+	{
+		src: '/assets/images/home/paul-wang.jpg',
+		alt: 'Center court portrait',
+		intro: 'A calm moment at center court during my visit.',
+		location: 'Wimbledon, London, UK',
+		device: 'iPhone 15 Pro',
+	},
+	{
+		src: '/assets/images/home/earth-hero.jpg',
+		alt: 'Green landscape',
+		intro: 'I liked the depth and color contrast in this frame.',
+		location: 'Chicago, Illinois, USA',
+		device: 'iPhone 15 Pro',
+	},
+	{
+		src: '/assets/images/home/ocean-hero.jpg',
+		alt: 'Ocean horizon',
+		intro: 'A simple horizon shot focused on light and shape.',
+		location: 'Santa Monica, California, USA',
+		device: 'iPhone 15 Pro',
+	},
+	{
+		src: '/assets/images/home/sand-hero.jpg',
+		alt: 'Sand and sea',
+		intro: 'I captured this for texture and minimal composition.',
+		location: 'San Diego, California, USA',
+		device: 'iPhone 15 Pro',
+	},
+];
+---
+
+<Layout
+	seo={{
+		title: 'Photograph | Paul (Zechong) Wang',
+		description: 'Photo gallery and story-style highlights by Paul Wang.',
+	}}
+>
+	<Container>
+		<section class="insta-page__section">
+			<div class="insta-profile__header">
+				<img
+					class="insta-profile__photo"
+					src="/assets/images/photograph/logo-placeholder.jpg"
+					alt="Photograph logo placeholder"
+				/>
+				<div>
+					<h1>Photograph</h1>
+					<p>
+						Visual diary of places, moments, and stories. Connect on
+						<a href="https://www.instagram.com/paulwang_pw/" target="_blank" rel="noreferrer">Instagram</a>.
+					</p>
+				</div>
+			</div>
+
+			<div class="story-highlights__row">
+				{
+					stories.map((story) => (
+						<button type="button" class="story-chip">{story}</button>
+					))
+				}
+			</div>
+
+			<div class="gallery-grid__container">
+				{
+					gallery.map((item, index) => (
+						<article class="gallery-card__item">
+							<button
+								type="button"
+								class="gallery-card__button"
+								data-photo-index={index}
+							>
+								<img src={item.src} alt={item.alt} loading="lazy" />
+							</button>
+						</article>
+					))
+				}
+			</div>
+
+			<dialog id="photoDialog" class="post-dialog__container">
+				<button type="button" class="dialog-close__button" id="photoDialogClose">
+					Close
+				</button>
+				<img id="photoDialogImage" alt="" />
+				<h2 id="photoDialogTitle"></h2>
+				<p id="photoDialogIntro"></p>
+				<p><strong>Where:</strong> <span id="photoDialogLocation"></span></p>
+				<p><strong>Device:</strong> <span id="photoDialogDevice"></span></p>
+			</dialog>
+		</section>
+	</Container>
+</Layout>
+
+<script define:vars={{ gallery }}>
+	const photoDialog = document.querySelector('#photoDialog');
+	const photoDialogClose = document.querySelector('#photoDialogClose');
+	const photoDialogImage = document.querySelector('#photoDialogImage');
+	const photoDialogTitle = document.querySelector('#photoDialogTitle');
+	const photoDialogIntro = document.querySelector('#photoDialogIntro');
+	const photoDialogLocation = document.querySelector('#photoDialogLocation');
+	const photoDialogDevice = document.querySelector('#photoDialogDevice');
+	const photoButtons = document.querySelectorAll('[data-photo-index]');
+
+	photoButtons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const index = Number(button.getAttribute('data-photo-index'));
+			const item = gallery[index];
+			if (!item || !photoDialog) return;
+			photoDialogImage.setAttribute('src', item.src);
+			photoDialogImage.setAttribute('alt', item.alt);
+			photoDialogTitle.textContent = item.alt;
+			photoDialogIntro.textContent = item.intro;
+			photoDialogLocation.textContent = item.location;
+			photoDialogDevice.textContent = item.device;
+			photoDialog.showModal();
+		});
+	});
+
+	photoDialogClose?.addEventListener('click', () => {
+		photoDialog?.close();
+	});
+</script>
+
+<style>
+	.insta-page__section {
+		margin: var(--section-margin) auto;
+	}
+	.insta-profile__header {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: 1rem;
+	}
+	.insta-profile__photo {
+		width: 120px;
+		height: 120px;
+		object-fit: cover;
+		border-radius: 999px;
+		border: 3px solid var(--theme-primary);
+	}
+	.story-highlights__row {
+		margin: 1.5rem 0;
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.story-chip {
+		padding: 0.5rem 0.9rem;
+		border-radius: 999px;
+		border: 1px solid var(--theme-outline);
+		background: var(--theme-surface-1);
+		color: inherit;
+	}
+	.gallery-grid__container {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.75rem;
+	}
+	.gallery-card__item {
+		aspect-ratio: 1 / 1;
+		overflow: hidden;
+		border-radius: 12px;
+	}
+	.gallery-card__button {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+	}
+	.gallery-card__item img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.post-dialog__container {
+		width: min(720px, 92vw);
+		border: none;
+		border-radius: 12px;
+		padding: 1rem;
+	}
+	.post-dialog__container::backdrop {
+		background: rgba(0, 0, 0, 0.65);
+	}
+	.post-dialog__container img {
+		width: 100%;
+		max-height: 420px;
+		object-fit: cover;
+		border-radius: 10px;
+		margin-bottom: 1rem;
+	}
+	.dialog-close__button {
+		border: 1px solid var(--theme-outline);
+		background: var(--theme-surface-1);
+		border-radius: 8px;
+		padding: 0.35rem 0.7rem;
+		cursor: pointer;
+		margin-bottom: 0.75rem;
+	}
+	@media (max-width: 768px) {
+		.gallery-grid__container {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+</style>

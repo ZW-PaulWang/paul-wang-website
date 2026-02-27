@@ -1,0 +1,45 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from '../layouts/Page.astro';
+---
+
+<Layout
+	seo={{
+		title: 'About Me | Paul (Zechong) Wang',
+		description: 'More stories and background about Paul (Zechong) Wang.',
+	}}
+>
+	<Container>
+		<section class="about-page__section">
+			<h1>About Me</h1>
+			<p>
+				I am Paul (Zechong) Wang. This page is for sharing my background,
+				personal stories, and milestones beyond my CV.
+			</p>
+
+			<h2>Background</h2>
+			<p>
+				Use this section to describe your academic path, what motivates your
+				research, and your long-term goals.
+			</p>
+
+			<h2>Stories</h2>
+			<p>
+				Add short stories about your experiences in research, travel, tennis,
+				and photography.
+			</p>
+
+			<h2>What I Am Working On</h2>
+			<p>
+				Share current projects, upcoming papers, and ideas you are actively
+				exploring.
+			</p>
+		</section>
+	</Container>
+</Layout>
+
+<style>
+	.about-page__section {
+		margin: var(--section-margin) auto;
+	}
+</style>

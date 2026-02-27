@@ -1,0 +1,72 @@
+---
+layout: '../../../layouts/Post.astro'
+title: 'Exploring "Simple Nine": A Simplified TD Sequential Strategy'
+description: My first exploration of a simplified trading idea inspired by TD Sequential.
+publishDate: February 26, 2026
+featuredImage: '/assets/images/blog/simple-nine/featured.jpg'
+excerpt: 'A practical walkthrough of my Simple Nine rules, setup logic, and risk controls.'
+tags: ['Trading Strategy', 'TD Sequential', 'Quant Notes']
+---
+
+I recently started exploring a simplified trading framework I call **Simple Nine**, inspired by the classic **TD Sequential** idea.
+
+This is not meant to be a full implementation of TD Sequential. Instead, it is my attempt to keep the spirit of the setup while making the rules easier to test, easier to execute, and easier to explain.
+
+## Why I Built a Simplified Version
+
+The original TD framework is rich but can become complex in practice when you add qualifiers, cancellation rules, and multiple timeframes.
+
+For early experimentation, I wanted:
+
+1. Clear entry conditions.
+2. Clear invalidation and stop logic.
+3. A structure I can backtest quickly and refine step by step.
+
+## Core Intuition Behind Simple Nine
+
+At a high level, the strategy tries to identify **short-term exhaustion**:
+
+1. In a down move, repeated weak closes can signal seller exhaustion and a possible rebound.
+2. In an up move, repeated strong closes can signal buyer exhaustion and a possible pullback.
+
+The “nine” concept is a compact way to capture that repeated pressure before looking for reversal confirmation.
+
+## Draft Rules (Current Version)
+
+### Long Setup (Rebound Idea)
+
+1. Track bars where close is weaker than a prior reference close.
+2. Count consecutive qualifying bars.
+3. When the count reaches 9, mark a potential long setup zone.
+4. Enter only after confirmation (for example, a higher close or break above recent minor resistance).
+
+### Short Setup (Pullback Idea)
+
+1. Track bars where close is stronger than a prior reference close.
+2. Count consecutive qualifying bars.
+3. When the count reaches 9, mark a potential short setup zone.
+4. Enter only after confirmation (for example, a lower close or break below recent minor support).
+
+## Risk Management I Use
+
+I treat risk management as part of the strategy, not an afterthought:
+
+1. **Stop-loss**: place beyond the setup extreme (recent local low for long, local high for short).
+2. **Position sizing**: fixed risk per trade, not fixed position size.
+3. **Take-profit**: partial scaling at predefined R-multiples and trailing for the remainder.
+4. **No chase rule**: if confirmation moves too far from the setup zone, skip.
+
+## What I’m Testing Next
+
+1. Which confirmation trigger is most robust.
+2. Whether performance depends on trend filters.
+3. How setup quality changes across assets and timeframes.
+4. Sensitivity to transaction costs and slippage.
+
+## Closing Note
+
+This post is my first working note, not a final claim.
+
+I’ll keep updating this strategy as I run more structured backtests and compare alternative rule variants.
+
+> Educational content only. This is not investment advice.
