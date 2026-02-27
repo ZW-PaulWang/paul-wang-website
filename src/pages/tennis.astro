@@ -49,18 +49,14 @@ const gallery = [
 
 const tennisTags = ['All', ...new Set(gallery.flatMap((item) => item.tags || []))];
 
-const tennisVideos = [
+const tennisTiktoks = [
 	{
-		title: 'Practice Video 1',
-		url: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
-		note: 'Replace this link with your own tennis YouTube video.',
+		title: 'Tennis TikTok 1',
+		url: 'https://www.tiktok.com/@pwtennislife1023/video/7611573919841013006?is_from_webapp=1&sender_device=pc&web_id=7611573103995307551',
+		videoId: '7611573919841013006',
+		note: 'My tennis content on TikTok.',
 	},
 ];
-
-const toEmbedUrl = (url) => {
-	const match = url.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-	return match ? `https://www.youtube.com/embed/${match[1]}` : null;
-};
 ---
 
 <Layout
@@ -132,31 +128,29 @@ const toEmbedUrl = (url) => {
 		</section>
 
 		<section class="video-section__container">
-			<h2>Tennis Videos</h2>
-			<p>Share your tennis videos through YouTube links.</p>
+			<h2>Tennis TikTok</h2>
+			<p>Share your tennis clips through TikTok.</p>
 			{
-				tennisVideos.map((video) => (
+				tennisTiktoks.map((video) => (
 					<article class="video-card__item">
 						<h3>{video.title}</h3>
 						<p>{video.note}</p>
 						<p><a href={video.url} target="_blank" rel="noreferrer">{video.url}</a></p>
-						{
-							toEmbedUrl(video.url) && (
-								<iframe
-									src={toEmbedUrl(video.url)}
-									title={video.title}
-									loading="lazy"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-									allowfullscreen
-								/>
-							)
-						}
+						<blockquote
+							class="tiktok-embed"
+							cite={video.url}
+							data-video-id={video.videoId}
+						>
+							<section></section>
+						</blockquote>
 					</article>
 				))
 			}
 		</section>
 	</Container>
 </Layout>
+
+<script async src="https://www.tiktok.com/embed.js"></script>
 
 <script define:vars={{ gallery }}>
 	const tennisDialog = document.querySelector('#tennisDialog');
@@ -305,11 +299,10 @@ const toEmbedUrl = (url) => {
 		border-radius: var(--theme-shape-radius);
 		background: var(--theme-surface-1);
 	}
-	.video-card__item iframe {
-		width: 100%;
-		aspect-ratio: 16 / 9;
-		border: 0;
-		border-radius: 10px;
+	:global(.tiktok-embed) {
+		margin: 1rem auto 0;
+		max-width: 605px;
+		min-width: 325px;
 	}
 	@media (max-width: 768px) {
 		.gallery-grid__container {
