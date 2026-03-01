@@ -1,0 +1,106 @@
+---
+layout: '../../../layouts/Post.astro'
+title: 'Designing an Interactive Supply Chain Control Tower Dashboard'
+description: A project note on building an interactive supply chain dashboard with R and Shiny.
+publishDate: March 1, 2026
+featuredImage: '/assets/images/blog/supply-chain-control-tower/featured.jpg'
+excerpt: 'This project explores an interactive supply chain control tower dashboard that visualizes bottlenecks, the bullwhip effect, and predictive profitability.'
+tags: ['Supply Chain', 'Dashboard', 'R Shiny', 'Data Visualization']
+---
+
+This post summarizes my new project: the design and development of an **interactive Supply Chain Control Tower dashboard** built with **R** and **Shiny**.
+
+The goal of the project is to show how data visualization can transform fragmented operational records into a clear, end-to-end view of supply chain performance. Instead of treating production, shipping, inventory, and sales as isolated steps, the dashboard brings them into one connected analytical system.
+
+## Project Motivation
+
+In many real-world operations, managers can see only a portion of the supply chain at a time. That limited visibility makes it harder to identify where delays, bottlenecks, and financial inefficiencies begin.
+
+This project focuses on a simulated **medical device supply chain** with four sequential nodes:
+
+1. Manufacturer
+2. Supplier
+3. Seller
+4. Hospital
+
+The central idea is to demonstrate the **bullwhip effect**, where small changes in final demand at the hospital level can generate much larger fluctuations upstream in production and inventory.
+
+## Data Design and Structure
+
+The project uses **synthetic but statistically realistic data** rather than proprietary business data. That choice makes the system easier to design, explain, and evaluate while preserving realistic operational logic.
+
+Each device-level record is linked by a unique device ID and includes timestamps for:
+
+1. Manufacturing
+2. Shipment
+3. Warehouse arrival
+4. Sale
+5. Hospital deployment
+
+The dataset also includes financial measures at each stage of the chain:
+
+1. Manufacturer production cost and wholesale price
+2. Supplier markup to the seller
+3. Seller final price to the hospital
+
+This structure allows the dashboard to track both the **physical movement of goods** and the **economic flow of margins**.
+
+## Dashboard Architecture
+
+The dashboard is organized into three views, each built around a different managerial question.
+
+### 1. Executive Overview
+
+The first view gives a high-level snapshot of system health. It includes key indicators such as:
+
+1. Total devices currently in transit
+2. Stagnant inventory across supply chain nodes
+3. Average end-to-end lead time
+4. Current-quarter gross profit
+
+This section is designed to answer a basic question quickly: is the supply chain operating efficiently right now?
+
+### 2. Flow and Bottleneck Analysis
+
+The second view uses a **Sankey diagram** to visualize movement from manufacturer to supplier, seller, and hospital.
+
+The flow widths represent the volume of inventory moving through the system. If inventory starts accumulating heavily at one node, the bottleneck becomes visually obvious.
+
+I also designed this view to support two modes:
+
+1. **Unit Volume Mode** for physical inventory flow
+2. **Capital Mode** for financial exposure tied up in inventory
+
+This makes the dashboard useful not only for operations analysis but also for understanding how much capital is trapped in slow-moving stock.
+
+### 3. Forecasting and Predictive Profitability
+
+The third view extends the dashboard beyond descriptive analytics.
+
+Using hospital consumption as the proxy for final demand, the project applies an **ARIMA forecasting model** to estimate next-quarter demand. That forecast is then adjusted for downstream inventory already held by suppliers and sellers.
+
+The resulting production logic is:
+
+> Required Production = Forecasted Hospital Demand - Existing Downstream Inventory
+
+This part of the dashboard demonstrates how stronger end-to-end visibility can reduce overproduction risk and improve profit planning.
+
+## Why This Project Matters
+
+What interests me most about this project is the combination of:
+
+1. simulation design,
+2. operational storytelling through visualization,
+3. and financial reasoning in decision support.
+
+The project is not meant as a production enterprise tool, but it serves as a clear conceptual prototype for how integrated dashboards can improve supply chain decisions.
+
+It also highlights a broader point: better visualization does not just make data prettier. It can make system-wide inefficiencies easier to detect, easier to explain, and easier to act on.
+
+## Closing Thoughts
+
+This project helped me think more carefully about how data products should bridge technical modeling and practical business decisions.
+
+By combining synthetic data, layered visualization, and forecasting, the Supply Chain Control Tower becomes both a useful analytical exercise and a compact example of data-driven operational design.
+
+I plan to continue refining this work by improving interaction design, extending the forecasting logic, and exploring more realistic scenario analysis.
