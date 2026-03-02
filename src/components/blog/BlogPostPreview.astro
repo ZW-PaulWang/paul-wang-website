@@ -13,6 +13,10 @@ const {post} = Astro.props;
 
 <style>
 .blog-post__preview img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
   margin-bottom: 1rem;
   border-radius: calc(var(--theme-shape-radius) /2);
   transition: border-radius var(--theme-transition);
