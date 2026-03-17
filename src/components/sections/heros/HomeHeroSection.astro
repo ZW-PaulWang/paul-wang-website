@@ -1,28 +1,36 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { Container } from '@components/odyssey-theme';
-import {ThemeSwitcher} from '../../theme-switcher/theme-switcher';
+import { ThemeSwitcher } from '../../theme-switcher/theme-switcher';
 ---
 
 <Container>
 	<section class="hero-section__section">
-		<div class="hero-section__text">
-				<h1><span class="hero-name__line">Paul (Zechong)</span><br />Wang</h1>
-				<p>
-					I am Paul (Zechong) Wang. Welcome to my academic personal webpage,
-					where I share my research, writing, photography, and tennis interests.
-				</p>
-				<div class="hero-btns__container">
-					<a class="know-more-btn" href="/about-me">
-						Know more about me
-						<span class="know-more-btn__icon">
-							<Icon name="ic:baseline-chevron-right"/>
-						</span>
-					</a>
-				</div>
-        <ThemeSwitcher client:only/>
+		<div class="hero-section__text glass-card">
+			<p class="eyebrow">Academic personal website</p>
+			<h1><span class="hero-name__line">Paul (Zechong)</span><br />Wang</h1>
+			<p class="hero-section__lede">
+				A cleaner home for research, writing, travel, and tennis. The layout now
+				prioritizes concise entry points instead of long lists.
+			</p>
+			<div class="hero-section__chips">
+				<span class="info-chip">Research</span>
+				<span class="info-chip">Writing</span>
+				<span class="info-chip">Travel</span>
+				<span class="info-chip">Tennis</span>
+			</div>
+			<div class="hero-btns__container">
+				<a class="know-more-btn" href="/about-me">
+					Know more about me
+					<span class="know-more-btn__icon">
+						<Icon name="ic:baseline-chevron-right" />
+					</span>
+				</a>
+				<a class="secondary-btn" href="/research">View research</a>
+			</div>
 		</div>
-		<div class="hero-section__image">
+		<div class="hero-section__image surface-card">
+			<div class="hero-section__portrait">
 				<picture>
 					<img
 						src="/assets/images/home/paul-wang.jpg?v=1"
@@ -30,24 +38,70 @@ import {ThemeSwitcher} from '../../theme-switcher/theme-switcher';
 						id="home-hero-image"
 					/>
 				</picture>
+			</div>
+			<div class="hero-section__details">
+				<div class="hero-detail__block">
+					<p class="hero-detail__label">Focus</p>
+					<p>
+						Research updates, essays, travel notes, and tennis stories in one
+						place.
+					</p>
+				</div>
+				<div class="hero-detail__block hero-detail__block--switcher">
+					<p class="hero-detail__label">Theme</p>
+					<ThemeSwitcher client:only />
+				</div>
+			</div>
 		</div>
 	</section>
 	<section class="hero-links__section">
-		<a class="hero-link__card" href="/research">
-			<h2>Research</h2>
-			<p>Project modules with clickable details and notes.</p>
+		<a class="hero-link__card surface-card" href="/research">
+			<span class="hero-link__icon">
+				<Icon name="ic:outline-science" />
+			</span>
+			<p class="hero-link__eyebrow">Research</p>
+			<h2>Project cards with expandable detail</h2>
+			<p>
+				Methods, summaries, and current directions are grouped into a tighter
+				deck.
+			</p>
+			<span class="hero-link__cta">Open research</span>
 		</a>
-		<a class="hero-link__card" href="/blog">
-			<h2>Blog</h2>
-			<p>Writing, reflections, and updates.</p>
+		<a class="hero-link__card glass-card" href="/blog">
+			<span class="hero-link__icon">
+				<Icon name="ic:outline-menu-book" />
+			</span>
+			<p class="hero-link__eyebrow">Writing</p>
+			<h2>Articles presented as readable modules</h2>
+			<p>
+				Posts sit inside compact cards with clearer hierarchy and stronger
+				previews.
+			</p>
+			<span class="hero-link__cta">Read the blog</span>
 		</a>
-		<a class="hero-link__card" href="/photograph">
-			<h2>Photograph</h2>
-			<p>Instagram-like gallery and story highlights.</p>
+		<a class="hero-link__card glass-card" href="/photograph">
+			<span class="hero-link__icon">
+				<Icon name="ic:outline-travel-explore" />
+			</span>
+			<p class="hero-link__eyebrow">Travel atlas</p>
+			<h2>Postcard navigation with a visual center</h2>
+			<p>
+				Interactive destinations stay visible without drifting into a loose
+				collage.
+			</p>
+			<span class="hero-link__cta">Explore trips</span>
 		</a>
-		<a class="hero-link__card" href="/tennis">
-			<h2>Tennis</h2>
-			<p>Match moments, training photos, and stories.</p>
+		<a class="hero-link__card surface-card" href="/tennis">
+			<span class="hero-link__icon">
+				<Icon name="ic:baseline-sports-tennis" />
+			</span>
+			<p class="hero-link__eyebrow">Tennis</p>
+			<h2>Training, matches, and highlights in one grid</h2>
+			<p>
+				Images and videos live in a denser gallery that is easier to scan
+				quickly.
+			</p>
+			<span class="hero-link__cta">See the gallery</span>
 		</a>
 	</section>
 </Container>
@@ -55,46 +109,73 @@ import {ThemeSwitcher} from '../../theme-switcher/theme-switcher';
 <style>
 	.hero-section__section {
 		margin: var(--section-margin) auto;
-		min-height: clamp(82vh, 92vw, calc(100vh - var(--navbar-height)));
+		min-height: min(78vh, 820px);
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		align-items: center;
-		gap: 1rem;
+		grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+		align-items: stretch;
+		gap: 1.25rem;
 	}
 	.hero-name__line {
 		white-space: nowrap;
 	}
 	.hero-section__text {
-		justify-self: center;
-		max-width: 25rem;
+		padding: clamp(1.5rem, 2vw, 2.1rem);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: 100%;
+	}
+	.hero-section__lede {
+		max-width: 34rem;
+		color: var(--theme-muted);
+	}
+	.hero-section__chips {
+		margin: 0 0 1.5rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
 	}
 	.hero-btns__container {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
-	}
-	.hero-btns__container {
-		margin-right: 1rem;
+		flex-wrap: wrap;
+		gap: 0.9rem;
 	}
 	.know-more-btn {
-		padding: 0.72rem 1.1rem;
+		padding: 0.82rem 1.15rem;
 		display: inline-flex;
 		align-items: center;
 		gap: 0.35rem;
-		border-radius: 10px;
+		border-radius: 999px;
 		text-decoration: none;
 		color: #ffffff;
-		background: #111827;
-		border: 1px solid #111827;
-		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent),
+			var(--theme-primary);
+		border: 1px solid transparent;
+		box-shadow: var(--theme-shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 		font-weight: 700;
 		letter-spacing: 0.01em;
-		transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+		transition: transform 120ms ease, box-shadow 120ms ease,
+			background-color 120ms ease;
 	}
 	.know-more-btn:hover {
-		background: #1f2937;
-		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent),
+			var(--theme-primary-hover);
+		box-shadow: var(--theme-shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.24);
 		transform: translateY(-1px);
+	}
+	.secondary-btn {
+		padding: 0.82rem 1.15rem;
+		display: inline-flex;
+		align-items: center;
+		border-radius: 999px;
+		text-decoration: none;
+		font-weight: 700;
+		color: var(--theme-primary);
+		background: rgba(255, 255, 255, 0.42);
+		border: 1px solid var(--theme-outline-strong);
+		backdrop-filter: blur(var(--theme-backdrop-blur));
+		-webkit-backdrop-filter: blur(var(--theme-backdrop-blur));
 	}
 	.know-more-btn:focus-visible {
 		outline: 3px solid rgba(59, 130, 246, 0.45);
@@ -105,39 +186,112 @@ import {ThemeSwitcher} from '../../theme-switcher/theme-switcher';
 		height: 18px;
 	}
 	.hero-section__image {
-		display: flex;
+		padding: 1rem;
+		display: grid;
+		grid-template-rows: minmax(0, 1fr) auto;
+		gap: 1rem;
+	}
+	.hero-section__portrait {
+		min-height: 100%;
+		overflow: hidden;
+		border-radius: calc(var(--theme-shape-radius) * 0.75);
+		background: rgba(255, 255, 255, 0.48);
 	}
 	.hero-section__image img {
 		width: 100%;
 		height: 100%;
-		max-height: 80vh;
+		max-height: 70vh;
 		object-fit: cover;
-		border-radius: var(--theme-shape-radius);
+		border-radius: calc(var(--theme-shape-radius) * 0.75);
 	}
-	.hero-links__section {
-		margin-top: -0.75rem;
+	.hero-section__details {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1rem;
+		gap: 0.75rem;
+	}
+	.hero-detail__block {
+		padding: 0.9rem 1rem;
+		border-radius: calc(var(--theme-shape-radius) * 0.65);
+		background: rgba(255, 255, 255, 0.46);
+		border: 1px solid var(--theme-outline);
+	}
+	.hero-detail__label {
+		margin-bottom: 0.35rem;
+		font-size: 0.76rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--theme-muted);
+	}
+	.hero-detail__block p:last-child {
+		margin-bottom: 0;
+	}
+	.hero-detail__block--switcher {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	.hero-links__section {
+		margin-top: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
 	}
 	.hero-link__card {
-		padding: 1rem;
-		border: 1px solid var(--theme-outline);
-		border-radius: var(--theme-shape-radius);
 		text-decoration: none;
 		color: inherit;
-		background: var(--theme-surface-1);
+		padding: 1.25rem;
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
+		transition: transform var(--theme-transition),
+			box-shadow var(--theme-transition), border-color var(--theme-transition);
+	}
+	.hero-link__card:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--theme-shadow-lg), var(--theme-shadow-inset);
+		border-color: var(--theme-outline-strong);
+	}
+	.hero-link__icon {
+		width: 3rem;
+		height: 3rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 1rem;
+		border-radius: 0.9rem;
+		background: rgba(255, 255, 255, 0.5);
+		border: 1px solid var(--theme-outline);
+	}
+	.hero-link__icon :global(svg) {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+	.hero-link__eyebrow {
+		margin-bottom: 0.4rem;
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--theme-muted);
 	}
 	.hero-link__card h2 {
-		margin-bottom: 0.5rem;
-		font-size: var(--font-size-lg);
+		margin-bottom: 0.65rem;
+		font-size: var(--font-size-md);
 	}
 	.hero-link__card p {
-		margin-bottom: 0;
-		opacity: 0.8;
+		color: var(--theme-muted);
+	}
+	.hero-link__cta {
+		margin-top: auto;
+		font-weight: 700;
 	}
 	@media (max-width: 768px) {
 		.hero-section__section {
+			grid-template-columns: 1fr;
+			min-height: auto;
+		}
+		.hero-section__details {
 			grid-template-columns: 1fr;
 		}
 		.hero-links__section {

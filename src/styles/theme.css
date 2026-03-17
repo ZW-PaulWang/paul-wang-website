@@ -1,32 +1,43 @@
 :root {
 	/* Theme Colors */
-	--theme-primary: hsl(0, 0%, 0%);
-	--theme-primary-hover: hsl(0, 0%, 20%);
+	--theme-primary: #18212f;
+	--theme-primary-hover: #243247;
 	--theme-on-primary: #fff;
 
-	--theme-bg: #fff;
-	--theme-on-bg: #000;
+	--theme-bg: #edf1f6;
+	--theme-on-bg: #131720;
+	--theme-muted: #5f6c7b;
 
-	--theme-surface-1: #f2f2f2;
-	--theme-on-surface-1: #000;
+	--theme-surface-1: #f8fafc;
+	--theme-on-surface-1: #131720;
 
-	--theme-surface-2: #cce6d0;
-	--theme-on-surface-2: #000;
+	--theme-surface-2: #dce8f6;
+	--theme-on-surface-2: #162537;
+	--theme-outline: rgba(24, 33, 47, 0.1);
+	--theme-outline-strong: rgba(24, 33, 47, 0.18);
+	--theme-glass-bg: rgba(255, 255, 255, 0.54);
+	--theme-glass-border: rgba(255, 255, 255, 0.58);
+	--theme-shadow-sm: 0 14px 30px rgba(16, 24, 40, 0.08);
+	--theme-shadow-md: 0 22px 50px rgba(16, 24, 40, 0.12);
+	--theme-shadow-lg: 0 28px 80px rgba(16, 24, 40, 0.16);
+	--theme-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.7),
+		inset 0 -1px 0 rgba(24, 33, 47, 0.05);
+	--theme-backdrop-blur: 18px;
 
 	/* Theme Shapes */
 	/* Set this to 0 if you want all of the rounded cards, images, etc to be straight edges */
-	--theme-shape-radius: clamp(1rem, 2rem, 3rem);
-	--theme-button-border-radius: 3rem;
+	--theme-shape-radius: clamp(1.2rem, 1rem + 1vw, 2rem);
+	--theme-button-border-radius: 999px;
 
 	/* Theme Transition */
-	--theme-transition: 0.2s ease-in-out;
+	--theme-transition: 180ms ease;
 
 	/* Theme Layout */
-	--section-margin: 3rem;
-	--theme-grid-gap: 1rem;
-	--container-max-width: 1440px;
+	--section-margin: clamp(2rem, 3vw, 4rem);
+	--theme-grid-gap: 1.25rem;
+	--container-max-width: 1280px;
 	--container-max-width-narrow: 960px;
-	--container-padding: 0 1rem;
+	--container-padding: 0 clamp(1rem, 2vw, 1.5rem);
 
 	--theme-blog-post-header-width: 1200px;
 
@@ -40,33 +51,44 @@
 [data-theme='default'] {
 	color-scheme: light;
 	/* Theme Colors */
-	--theme-primary: hsl(0, 0%, 0%);
-	--theme-primary-hover: hsl(0, 0%, 20%);
+	--theme-primary: #18212f;
+	--theme-primary-hover: #243247;
 	--theme-on-primary: #fff;
 
-	--theme-bg: #fff;
-	--theme-on-bg: #000;
+	--theme-bg: #edf1f6;
+	--theme-on-bg: #131720;
+	--theme-muted: #5f6c7b;
 
-	--theme-surface-1: #f2f2f2;
-	--theme-on-surface-1: #000;
+	--theme-surface-1: #f8fafc;
+	--theme-on-surface-1: #131720;
 
-	--theme-surface-2: #cce6d0;
-	--theme-on-surface-2: #000;
+	--theme-surface-2: #dce8f6;
+	--theme-on-surface-2: #162537;
+	--theme-outline: rgba(24, 33, 47, 0.1);
+	--theme-outline-strong: rgba(24, 33, 47, 0.18);
+	--theme-glass-bg: rgba(255, 255, 255, 0.54);
+	--theme-glass-border: rgba(255, 255, 255, 0.58);
+	--theme-shadow-sm: 0 14px 30px rgba(16, 24, 40, 0.08);
+	--theme-shadow-md: 0 22px 50px rgba(16, 24, 40, 0.12);
+	--theme-shadow-lg: 0 28px 80px rgba(16, 24, 40, 0.16);
+	--theme-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.7),
+		inset 0 -1px 0 rgba(24, 33, 47, 0.05);
+	--theme-backdrop-blur: 18px;
 
 	/* Theme Shape */
 	/* Set this to 0 if you want all of the rounded cards, images, etc to be straight edges */
-	--theme-shape-radius: clamp(1rem, 2rem, 3rem);
-	--theme-button-border-radius: 3rem;
+	--theme-shape-radius: clamp(1.2rem, 1rem + 1vw, 2rem);
+	--theme-button-border-radius: 999px;
 
 	/* Theme Transition */
-	--theme-transition: 0.2s ease-in-out;
+	--theme-transition: 180ms ease;
 
 	/* Theme Layout */
-	--section-margin: 3rem;
-	--theme-grid-gap: 1rem;
-	--container-max-width: 1440px;
+	--section-margin: clamp(2rem, 3vw, 4rem);
+	--theme-grid-gap: 1.25rem;
+	--container-max-width: 1280px;
 	--container-max-width-narrow: 960px;
-	--container-padding: 0 1rem;
+	--container-padding: 0 clamp(1rem, 2vw, 1.5rem);
 
 	--theme-blog-post-header-width: 1200px;
 }
@@ -74,74 +96,118 @@
 [data-theme='dark'] {
 	color-scheme: dark;
 	/* Theme Colors */
-	--theme-primary: hsl(0, 0%, 100%);
-	--theme-primary-hover: hsl(0, 0%, 90%);
+	--theme-primary: #f4f7fb;
+	--theme-primary-hover: #d6e0f0;
 	--theme-on-primary: hsl(0, 0%, 0%);
 
-	--theme-bg: hsl(0, 0%, 2%);
-	--theme-on-bg: hsl(0, 0%, 100%);
+	--theme-bg: #08111d;
+	--theme-on-bg: #f5f7fb;
+	--theme-muted: #a2afc4;
 
-	--theme-surface-1: hsl(0, 0%, 20%);
-	--theme-on-surface-1: hsl(0, 0%, 100%);
+	--theme-surface-1: #0f1a28;
+	--theme-on-surface-1: #f5f7fb;
 
-	--theme-surface-2: #203422;
+	--theme-surface-2: #13263d;
 	--theme-on-surface-2: #ffffff;
-
-	--theme-shape-radius: 0;
+	--theme-outline: rgba(226, 232, 240, 0.12);
+	--theme-outline-strong: rgba(226, 232, 240, 0.2);
+	--theme-glass-bg: rgba(10, 18, 30, 0.62);
+	--theme-glass-border: rgba(255, 255, 255, 0.1);
+	--theme-shadow-sm: 0 14px 30px rgba(0, 0, 0, 0.22);
+	--theme-shadow-md: 0 22px 50px rgba(0, 0, 0, 0.32);
+	--theme-shadow-lg: 0 28px 80px rgba(0, 0, 0, 0.44);
+	--theme-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05),
+		inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+	--theme-backdrop-blur: 20px;
+	--theme-shape-radius: 1.25rem;
+	--theme-button-border-radius: 999px;
 
 	--form-field-input-color: var(--theme-on-bg);
 }
 
 [data-theme='earth'] {
 	/* Theme Colors */
-	--theme-primary: #2c3e2d;
-	--theme-primary-hover: #395a3b;
+	--theme-primary: #2c4233;
+	--theme-primary-hover: #3b5643;
 	--theme-on-primary: hsl(0, 0%, 100%);
 
-	--theme-bg: #eeeff1;
-	--theme-on-bg: #272f27;
+	--theme-bg: #ece8df;
+	--theme-on-bg: #253028;
+	--theme-muted: #697467;
 
-	--theme-surface-1: #e6e4e0;
-	--theme-on-surface-1: #272f27;
+	--theme-surface-1: #f5f2ec;
+	--theme-on-surface-1: #253028;
 
-	--theme-surface-2: #c3d9c4;
+	--theme-surface-2: #d7e1d1;
 	--theme-on-surface-2: #000;
+	--theme-outline: rgba(44, 66, 51, 0.12);
+	--theme-outline-strong: rgba(44, 66, 51, 0.2);
+	--theme-glass-bg: rgba(245, 242, 236, 0.62);
+	--theme-glass-border: rgba(255, 255, 255, 0.5);
+	--theme-shadow-sm: 0 14px 30px rgba(55, 45, 26, 0.08);
+	--theme-shadow-md: 0 22px 50px rgba(55, 45, 26, 0.12);
+	--theme-shadow-lg: 0 28px 80px rgba(55, 45, 26, 0.16);
+	--theme-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.7),
+		inset 0 -1px 0 rgba(44, 66, 51, 0.05);
+	--theme-backdrop-blur: 18px;
 
-	--theme-button-border-radius: 0.5rem;
+	--theme-button-border-radius: 999px;
 }
 
 [data-theme='ocean'] {
 	/* Theme Colors */
 	/* Theme Colors */
-	--theme-primary: #1556ac;
-	--theme-primary-hover: #2569c3;
+	--theme-primary: #144d92;
+	--theme-primary-hover: #1a63b8;
 	--theme-on-primary: hsl(0, 0%, 100%);
 
-	--theme-bg: #fafafa;
-	--theme-on-bg: #0c0d0d;
+	--theme-bg: #edf4f9;
+	--theme-on-bg: #0f1e2a;
+	--theme-muted: #54697a;
 
-	--theme-surface-1: #eef1f3;
-	--theme-on-surface-1: #0c0d0d;
+	--theme-surface-1: #f8fbfd;
+	--theme-on-surface-1: #0f1e2a;
 
-	--theme-surface-2: #072650;
+	--theme-surface-2: #dce8f6;
 	--theme-on-surface-2: #ffffff;
+	--theme-outline: rgba(20, 77, 146, 0.1);
+	--theme-outline-strong: rgba(20, 77, 146, 0.18);
+	--theme-glass-bg: rgba(255, 255, 255, 0.56);
+	--theme-glass-border: rgba(255, 255, 255, 0.62);
+	--theme-shadow-sm: 0 14px 30px rgba(20, 77, 146, 0.08);
+	--theme-shadow-md: 0 22px 50px rgba(20, 77, 146, 0.12);
+	--theme-shadow-lg: 0 28px 80px rgba(20, 77, 146, 0.16);
+	--theme-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.7),
+		inset 0 -1px 0 rgba(20, 77, 146, 0.05);
+	--theme-backdrop-blur: 18px;
 }
 
 [data-theme='sand'] {
 	/* Theme Colors */
 	/* Theme Colors */
-	--theme-primary: #e38a20;
-	--theme-primary-hover: #eb870f;
+	--theme-primary: #c97318;
+	--theme-primary-hover: #dc8122;
 	--theme-on-primary: hsl(0, 0%, 100%);
 
-	--theme-bg: #fffffe;
+	--theme-bg: #fbf2e7;
 	--theme-on-bg: #5e4536;
+	--theme-muted: #8c6e59;
 
-	--theme-surface-1: #ffecd9;
+	--theme-surface-1: #fff8ef;
 	--theme-on-surface-1: #5e4536;
 
-	--theme-surface-2: #6a4d34;
+	--theme-surface-2: #ffe5c8;
 	--theme-on-surface-2: #ffffff;
+	--theme-outline: rgba(94, 69, 54, 0.1);
+	--theme-outline-strong: rgba(94, 69, 54, 0.18);
+	--theme-glass-bg: rgba(255, 248, 239, 0.62);
+	--theme-glass-border: rgba(255, 255, 255, 0.55);
+	--theme-shadow-sm: 0 14px 30px rgba(94, 69, 54, 0.08);
+	--theme-shadow-md: 0 22px 50px rgba(94, 69, 54, 0.12);
+	--theme-shadow-lg: 0 28px 80px rgba(94, 69, 54, 0.16);
+	--theme-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.7),
+		inset 0 -1px 0 rgba(94, 69, 54, 0.05);
+	--theme-backdrop-blur: 16px;
 
-	--theme-button-border-radius: 0.5rem;
+	--theme-button-border-radius: 999px;
 }

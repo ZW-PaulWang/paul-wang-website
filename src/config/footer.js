@@ -29,7 +29,7 @@ export const footerLists = [
 				slug: '/blog',
 			},
 			{
-				title: 'Photograph',
+				title: 'Travel Atlas',
 				slug: '/photograph',
 			},
 		],

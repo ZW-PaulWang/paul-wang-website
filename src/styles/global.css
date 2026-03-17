@@ -6,16 +6,129 @@ body {
 body {
 	max-width: 1920px;
 	margin: 0 auto;
-	background-color: var(--theme-bg);
+	background: radial-gradient(
+			circle at top left,
+			rgba(255, 255, 255, 0.75),
+			transparent 26%
+		),
+		radial-gradient(
+			circle at top right,
+			rgba(135, 173, 225, 0.16),
+			transparent 24%
+		),
+		linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 32%),
+		var(--theme-bg);
+	color: var(--theme-on-bg);
 	position: relative;
 }
 
+body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	background: radial-gradient(
+			circle at 15% 20%,
+			rgba(255, 255, 255, 0.28),
+			transparent 22%
+		),
+		radial-gradient(
+			circle at 85% 12%,
+			rgba(255, 255, 255, 0.18),
+			transparent 18%
+		);
+	opacity: 0.7;
+}
+
+main {
+	position: relative;
+	z-index: 1;
+	padding-bottom: clamp(4rem, 7vw, 7rem);
+}
+
+a {
+	color: inherit;
+}
+
+img {
+	max-width: 100%;
+}
+
+::selection {
+	background: rgba(70, 113, 170, 0.18);
+}
+
+.surface-card,
+.glass-card {
+	border: 1px solid var(--theme-outline);
+	border-radius: var(--theme-shape-radius);
+	box-shadow: var(--theme-shadow-md), var(--theme-shadow-inset);
+}
+
+.surface-card {
+	background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.92),
+			rgba(255, 255, 255, 0.6)
+		),
+		var(--theme-surface-1);
+}
+
+.glass-card {
+	background: var(--theme-glass-bg);
+	backdrop-filter: blur(var(--theme-backdrop-blur));
+	-webkit-backdrop-filter: blur(var(--theme-backdrop-blur));
+	border-color: var(--theme-glass-border);
+}
+
+.eyebrow {
+	margin-bottom: 0.65rem;
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--theme-muted);
+}
+
+.section-heading {
+	max-width: 42rem;
+	margin-bottom: 1.5rem;
+}
+
+.section-heading p:last-child {
+	margin-bottom: 0;
+	color: var(--theme-muted);
+}
+
+.info-chip {
+	padding: 0.55rem 0.85rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	border: 1px solid var(--theme-outline);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.5);
+	box-shadow: var(--theme-shadow-sm);
+	font-size: 0.88rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.card-grid {
+	display: grid;
+	gap: var(--theme-grid-gap);
+}
+
+.muted-copy {
+	color: var(--theme-muted);
+}
+
 pre {
-  padding: 1em;
-  border-radius: 0.5em;
-  overflow: auto;
+	padding: 1em;
+	border-radius: 0.5em;
+	overflow: auto;
 }
 
 pre .language-id {
-  display: none;
+	display: none;
 }

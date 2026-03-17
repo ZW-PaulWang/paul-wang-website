@@ -1,6 +1,24 @@
 ---
 import { Container } from '@components/odyssey-theme';
 import Layout from '../layouts/Page.astro';
+
+const storyCards = [
+	{
+		title: 'Background',
+		body:
+			'This section can introduce your academic path, the questions that pulled you into research, and the motivations that shape your long-term goals.',
+	},
+	{
+		title: 'Stories',
+		body:
+			'Use short, specific stories instead of a long biography. Travel, research, tennis, and photography work better here as individual moments with context.',
+	},
+	{
+		title: 'Current work',
+		body:
+			'Highlight ongoing papers, active projects, and ideas you are testing now so visitors can quickly understand what is live instead of reading a loose archive.',
+	},
+];
 ---
 
 <Layout
@@ -11,29 +29,42 @@ import Layout from '../layouts/Page.astro';
 >
 	<Container>
 		<section class="about-page__section">
-			<h1>About Me</h1>
-			<p>
-				I am Paul (Zechong) Wang. This page is for sharing my background,
-				personal stories, and milestones beyond my CV.
-			</p>
+			<div class="about-page__hero">
+				<div class="about-page__intro glass-card">
+					<p class="eyebrow">About</p>
+					<h1>About Me</h1>
+					<p class="about-page__lede">
+						A tighter overview of your background, personal stories, and milestones beyond
+						the CV. The page is organized as a compact set of cards so each topic has a clear
+						role.
+					</p>
+				</div>
+				<aside class="about-page__summary surface-card">
+					<p class="eyebrow">Quick view</p>
+					<div class="about-page__summary-grid">
+						<div class="about-page__summary-item">
+							<p class="about-page__summary-label">Covers</p>
+							<p>Academic path, motivations, and current priorities.</p>
+						</div>
+						<div class="about-page__summary-item">
+							<p class="about-page__summary-label">Themes</p>
+							<p>Research, writing, travel, tennis, and photography.</p>
+						</div>
+					</div>
+				</aside>
+			</div>
 
-			<h2>Background</h2>
-			<p>
-				Use this section to describe your academic path, what motivates your
-				research, and your long-term goals.
-			</p>
-
-			<h2>Stories</h2>
-			<p>
-				Add short stories about your experiences in research, travel, tennis,
-				and photography.
-			</p>
-
-			<h2>What I Am Working On</h2>
-			<p>
-				Share current projects, upcoming papers, and ideas you are actively
-				exploring.
-			</p>
+			<div class="about-page__cards">
+				{
+					storyCards.map((card) => (
+						<article class="about-page__card surface-card">
+							<p class="eyebrow">Section</p>
+							<h2>{card.title}</h2>
+							<p>{card.body}</p>
+						</article>
+					))
+				}
+			</div>
 		</section>
 	</Container>
 </Layout>
@@ -41,5 +72,55 @@ import Layout from '../layouts/Page.astro';
 <style>
 	.about-page__section {
 		margin: var(--section-margin) auto;
+		display: grid;
+		gap: 1.25rem;
+	}
+	.about-page__hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+		gap: 1.25rem;
+		align-items: stretch;
+	}
+	.about-page__intro,
+	.about-page__summary,
+	.about-page__card {
+		padding: 1.4rem;
+	}
+	.about-page__lede {
+		max-width: 38rem;
+		color: var(--theme-muted);
+	}
+	.about-page__summary-grid {
+		display: grid;
+		gap: 1rem;
+	}
+	.about-page__summary-item p:last-child,
+	.about-page__card p:last-child {
+		margin-bottom: 0;
+	}
+	.about-page__summary-label {
+		margin-bottom: 0.35rem;
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--theme-muted);
+	}
+	.about-page__cards {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+	.about-page__card h2 {
+		font-size: var(--font-size-md);
+	}
+	.about-page__card p {
+		color: var(--theme-muted);
+	}
+	@media (max-width: 900px) {
+		.about-page__hero,
+		.about-page__cards {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

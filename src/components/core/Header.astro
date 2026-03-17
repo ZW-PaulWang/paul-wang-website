@@ -73,11 +73,22 @@ const { navData, rightMenu } = Astro.props;
 
 <style>
   header {
-    width: 100%;
-    padding: 1rem 0.5rem;
+    width: min(calc(var(--container-max-width) + 2rem), calc(100% - 1.5rem));
+    margin: 1rem auto 0;
+    padding: 0.85rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
+    position: sticky;
+    top: 0.75rem;
+    z-index: 90;
+    background: var(--theme-glass-bg);
+    backdrop-filter: blur(var(--theme-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--theme-backdrop-blur));
+    border: 1px solid var(--theme-glass-border);
+    border-radius: calc(var(--theme-shape-radius) * 0.9);
+    box-shadow: var(--theme-shadow-sm), var(--theme-shadow-inset);
   }
   header.header--right {
     display: grid;
@@ -91,6 +102,7 @@ const { navData, rightMenu } = Astro.props;
   .header-logo-menu__container {
     display: flex;
     align-items: center;
+    gap: 0.35rem;
     z-index: 100;
   }
   .header-action-item__container {
@@ -110,33 +122,57 @@ const { navData, rightMenu } = Astro.props;
     vertical-align: middle;
   }
   nav {
-  display: flex;
+    display: flex;
   }
   nav ul {
     margin: 0;
     padding: 0;
     list-style: none;
     display: flex;
+    align-items: center;
+    gap: 0.35rem;
   }
   nav ul li a {
     text-decoration: none;
-    margin-right: 1rem;
     color: inherit;
-    opacity: 0.72;
-    transition: opacity linear 150ms;
+    opacity: 0.82;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.55rem;
+    padding: 0 0.95rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition:
+      background-color var(--theme-transition),
+      opacity var(--theme-transition),
+      border-color var(--theme-transition);
   }
   nav ul li a:hover {
     opacity: 1;
+    background: rgba(255, 255, 255, 0.45);
+    border-color: var(--theme-outline);
+  }
+  nav ul li a:focus-visible,
+  #menuButton:focus-visible {
+    outline: 3px solid rgba(70, 113, 170, 0.32);
+    outline-offset: 2px;
   }
   @media(max-width: 600px) {
     #menuButton {
-      display: block;  
+      display: block;
       z-index: 100;
+    }
+    header,
+    header.header--right {
+      width: calc(100% - 1rem);
+      grid-template-columns: auto 1fr auto;
     }
     .header-nav__container {
       width: 100%;
       height: 100%;
-      background-color: var(--theme-bg);
+      background: rgba(8, 17, 29, 0.55);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       display: none;
       flex-direction: column;
       align-items: center;
@@ -151,10 +187,17 @@ const { navData, rightMenu } = Astro.props;
     header[mobile-menu-open] nav ul {
       align-items: center;
       flex-direction: column;
+      gap: 0.75rem;
     }
      header[mobile-menu-open] nav ul li {
        font-size: var(--font-size-lg);
-       margin-bottom: 1rem;
      }
+    header[mobile-menu-open] nav ul li a {
+      min-width: 12rem;
+      justify-content: center;
+      background: var(--theme-glass-bg);
+      border-color: var(--theme-glass-border);
+      box-shadow: var(--theme-shadow-sm);
+    }
   }
 </style>

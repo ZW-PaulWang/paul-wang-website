@@ -8,7 +8,7 @@ export const nav = [
 		slug: '/blog',
 	},
 	{
-		title: 'Photograph',
+		title: 'Travel Atlas',
 		slug: '/photograph',
 	},
 	{

@@ -5,31 +5,74 @@ const {post} = Astro.props;
 <li class="blog-post__preview">
   <a href={post.href}>
     <img src={post.featuredImage} />
-    <h3>{post.title}</h3>
-    {post.excerpt && <p>{post.excerpt}</p>}
+    <div class="blog-post__body">
+      <p class="blog-post__eyebrow">Blog post</p>
+      <h3>{post.title}</h3>
+      {post.excerpt && <p>{post.excerpt}</p>}
+      <span class="blog-post__cta">Read article</span>
+    </div>
   </a>
 </li>
 
 
 <style>
+.blog-post__preview {
+  min-width: 0;
+}
+.blog-post__preview a {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  border: 1px solid var(--theme-outline);
+  border-radius: calc(var(--theme-shape-radius) * 0.9);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.62)),
+    var(--theme-surface-1);
+  box-shadow: var(--theme-shadow-md), var(--theme-shadow-inset);
+  transition:
+    transform var(--theme-transition),
+    box-shadow var(--theme-transition),
+    border-color var(--theme-transition);
+}
 .blog-post__preview img {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   display: block;
-  margin-bottom: 1rem;
-  border-radius: calc(var(--theme-shape-radius) /2);
-  transition: border-radius var(--theme-transition);
+  transition: transform 260ms ease;
+}
+.blog-post__preview:hover a {
+  transform: translateY(-3px);
+  border-color: var(--theme-outline-strong);
+  box-shadow: var(--theme-shadow-lg), var(--theme-shadow-inset);
 }
 .blog-post__preview:hover img {
-  border-radius: var(--theme-shape-radius);
+  transform: scale(1.03);
 }
-.blog-post__preview a {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+.blog-post__body {
+  padding: 1.1rem 1.1rem 1.2rem;
+}
+.blog-post__eyebrow {
+  margin-bottom: 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--theme-muted);
 }
 .blog-post__preview h3 {
-  margin: 0;
+  margin: 0 0 0.6rem;
+}
+.blog-post__preview p {
+  color: var(--theme-muted);
+}
+.blog-post__cta {
+  display: inline-flex;
+  margin-top: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 </style> 
