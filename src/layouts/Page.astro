@@ -1,5 +1,6 @@
 ---
-import { Header, Button, Footer } from '@components/odyssey-theme';
+import { Header, Footer } from '@components/odyssey-theme';
+import { Icon } from 'astro-icon/components';
 import Layout from './Base.astro';
 import type { Props as BaseHeadProps } from '../components/head/BaseHead.astro';
 import Logo from '../components/Logo.astro';
@@ -9,32 +10,97 @@ import { footerLists, footerSocials } from '../config/footer';
 
 export interface Props {
 	seo?: BaseHeadProps;
+	hideFooter?: boolean;
+	immersiveHeader?: boolean;
 }
 
 import { nav } from '../config/nav.js';
 
-const { seo } = Astro.props as Props;
+const { seo, hideFooter = false, immersiveHeader = false } = Astro.props as Props;
 ---
 
 <Layout seo={seo}>
-	<Header rightMenu navData={nav} slot="header">
+	<Header rightMenu navData={nav} transparent={immersiveHeader} slot="header">
 		<span slot="logo">
 			<Logo />
 		</span>
-		<Button slot="action-item" href={settings.githubUrl} newTab>Github</Button>
+		<a
+			class="header-github-link"
+			slot="action-item"
+			href="https://github.com/ZW-PaulWang"
+			aria-label="GitHub"
+		>
+			<Icon name="mdi:github" />
+			<span>GitHub</span>
+		</a>
 	</Header>
-	<div id="page">
+	<div id="page" class:list={[hideFooter && 'page--no-footer']}>
 		<slot />
 	</div>
-	<Footer
-		slot="footer"
-		background="var(--theme-surface-1)"
-		color="var(--theme-on-surface-1)"
-		footerLists={footerLists}
-    footerSocials={footerSocials}
-		copyrightName={settings.name}
-    showPlug={settings.showPlug}
-	>
-		<Logo slot="logo" />
-	</Footer>
+	{
+		!hideFooter && (
+			<Footer
+				slot="footer"
+				background="var(--theme-surface-1)"
+				color="var(--theme-on-surface-1)"
+				footerLists={footerLists}
+				footerSocials={footerSocials}
+				copyrightName={settings.name}
+			>
+				<Logo slot="logo" />
+			</Footer>
+		)
+	}
 </Layout>
+
+<style>
+	.header-github-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		min-height: 2.1rem;
+		text-decoration: none;
+		color: inherit;
+		opacity: 0.78;
+		font-size: 0.86rem;
+		font-weight: 600;
+		border-bottom: 1px solid transparent;
+	}
+	.header-github-link:hover {
+		opacity: 1;
+		color: var(--theme-primary);
+		border-color: currentColor;
+	}
+	:global(.header--transparent) .header-github-link {
+		min-height: 2rem;
+		padding: 0 0.65rem;
+		color: #0c2530;
+		opacity: 0.92;
+		background: rgba(255, 255, 255, 0.72);
+		border: 1px solid rgba(255, 255, 255, 0.72);
+		border-radius: 999px;
+		box-shadow: 0 0.35rem 1.1rem rgba(5, 28, 36, 0.08);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+	}
+	:global(.header--transparent) .header-github-link:hover {
+		color: var(--theme-primary);
+		background: rgba(255, 255, 255, 0.9);
+		border-color: rgba(17, 125, 121, 0.28);
+	}
+	.header-github-link :global(svg) {
+		width: 1.05rem;
+		height: 1.05rem;
+	}
+	.page--no-footer {
+		min-height: 100svh;
+	}
+	:global(body:has(.page--no-footer) main) {
+		padding-bottom: 0;
+	}
+	@media (max-width: 600px) {
+		.header-github-link span {
+			display: none;
+		}
+	}
+</style>

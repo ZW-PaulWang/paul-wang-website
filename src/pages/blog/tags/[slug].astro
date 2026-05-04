@@ -1,12 +1,23 @@
 ---
+import { parse, format, isBefore } from 'date-fns';
 import Layout from '../../../layouts/Page.astro'
 import { Container } from '@components/odyssey-theme';
+import BlogPostsList from '../../../components/blog/BlogPostsList.astro';
 import {generateTagData} from '../../../utils/helpers.js'
 
 
 export async function getStaticPaths() {
   const allPosts = await Astro.glob('../posts/*.mdx');
-  const sortedPosts = allPosts.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
+  const sortedPosts = allPosts
+    .map((post) => ({
+      ...post,
+      parsedPublishDate: parse(post.frontmatter.publishDate, 'MMMM d, yyyy', new Date()),
+    }))
+    .sort((a, b) => {
+      if (isBefore(a.parsedPublishDate, b.parsedPublishDate)) return 1;
+      if (isBefore(b.parsedPublishDate, a.parsedPublishDate)) return -1;
+      return 0;
+    });
   const allCategoriesUnique = new Set();
   
   sortedPosts.forEach(post => {
@@ -32,20 +43,29 @@ export async function getStaticPaths() {
 
 const {tag, posts} = Astro.props;
 
+const normalizedPosts = posts.map((post) => ({
+  title: post.frontmatter.title,
+  publishDate: parse(post.frontmatter.publishDate, 'MMMM d, yyyy', new Date()),
+  dateLabel: format(parse(post.frontmatter.publishDate, 'MMMM d, yyyy', new Date()), 'MMM d, yyyy'),
+  featuredImage: post.frontmatter.featuredImage,
+  excerpt: post.frontmatter.excerpt,
+  href: post.url,
+}));
+
 const seo ={
-  title: `${tag} | Astro Odyssey`,
+  title: `${tag} | Blog | Paul (Zechong) Wang`,
 }
 ---
 
 <Layout seo={seo}>
-  <Container narrow>
+  <Container>
     <section class="tag-page__section"> 
-      <h1>Posts Tagged with "{tag}"</h1>
-      <ul>
-        {posts.map(post => (
-          <li><a href={post.url}>{post.frontmatter.title}</a></li>
-        ))}
-      </ul>
+      <div class="tag-page__hero">
+        <p class="tag-page__eyebrow">Tag archive</p>
+        <h1>{tag}</h1>
+        <p class="tag-page__lede">Writing collected under this topic.</p>
+      </div>
+      <BlogPostsList posts={normalizedPosts} />
     </section>
   </Container>
 </Layout>
@@ -53,6 +73,25 @@ const seo ={
 <style>
 .tag-page__section {
   min-height: 60vh;
-  margin: var(--section-margin);
+  margin: var(--section-margin) auto;
+}
+.tag-page__hero {
+  max-width: 38rem;
+  margin-bottom: 1.3rem;
+}
+.tag-page__eyebrow {
+  margin-bottom: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--theme-primary);
+}
+.tag-page__hero h1 {
+  margin-bottom: 0.55rem;
+}
+.tag-page__lede {
+  margin-bottom: 0;
+  color: var(--theme-muted);
 }
 </style>

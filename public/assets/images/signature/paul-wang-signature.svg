@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 300" role="img" aria-labelledby="title">
+	<title id="title">Paul Wang signature</title>
+	<g fill="none">
+		<text
+			x="105"
+			y="178"
+			fill="#062248"
+			font-family="Snell Roundhand, Brush Script MT, Segoe Script, Comic Sans MS, cursive"
+			font-size="150"
+			font-style="italic"
+			font-weight="400"
+			letter-spacing="2"
+			transform="skewX(-8)"
+		>Paul Wang</text>
+		<path
+			d="M236 218 C360 191, 521 181, 642 183 C715 184, 770 190, 803 200"
+			stroke="#ef5038"
+			stroke-width="8"
+			stroke-linecap="round"
+		/>
+	</g>
+</svg>

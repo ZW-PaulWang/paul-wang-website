@@ -1,18 +1,22 @@
 export const nav = [
 	{
-		title: 'Research',
-		slug: '/research',
+		title: 'About',
+		slug: '/about-me',
+	},
+	{
+		title: 'CV',
+		slug: '/cv/Zechong_Wang_CV.pdf',
 	},
 	{
 		title: 'Blog',
 		slug: '/blog',
 	},
 	{
-		title: 'Travel Atlas',
-		slug: '/photograph',
-	},
-	{
 		title: 'Tennis',
 		slug: '/tennis',
+	},
+	{
+		title: 'Contact',
+		slug: 'mailto:zw2685@uchicago.edu',
 	},
 ];

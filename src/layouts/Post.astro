@@ -1,79 +1,465 @@
 ---
 import { Container } from '@components/odyssey-theme';
-import Layout from './Page.astro'; 
+import Layout from './Page.astro';
 import { generateTagData } from '../utils/helpers';
 
-const {content: {title, description, publishDate, canonicalURL, featuredImage, tags} } = Astro.props;
+const {
+	content: { title, description, publishDate, canonicalURL, featuredImage, tags },
+} = Astro.props;
 
 let allTagsData = [];
 
-if(tags && tags.length > 0){
-  allTagsData = generateTagData(tags);
+if (tags && tags.length > 0) {
+	allTagsData = generateTagData(tags);
 }
 
 const seo = {
 	title,
 	description,
-  publishDate,
+	publishDate,
 	canonicalURL,
 	image: featuredImage,
 };
 ---
-<Layout seo={seo}> 
-  <div class="post-header__container"> 
-    <ul class="post-tags__list">
-      {allTagsData.map(tag => (
-        <li class="post-tags__tag">
-          <a href={`/blog/tags/${tag.slug}`}>
-            {tag.title}
-          </a>
-        </li>
-      ))}
-    </ul>
-    <h1>{title}</h1>
-    <p class="post-layout__date">
-      <time><em>{publishDate}</em></time>
-    </p>
-    {featuredImage && <img class="post-layout__img" src={featuredImage} alt={title} />}
-  </div>
-  <Container narrow>  
-    <article id="article">
-        <slot></slot>
-    </article>
-  </Container>
+
+<Layout seo={seo}>
+	<section class="post-research" aria-labelledby="post-title">
+		<Container>
+			<div class="post-research__layout">
+				<aside class="post-research__rail" aria-label="Post details">
+					<div class="post-research__rail-inner">
+						<a class="post-back__link" href="/blog">Blog</a>
+						<div class="post-progress" aria-hidden="true">
+							<div class="post-progress__bar"></div>
+						</div>
+						<p class="post-research__eyebrow">Research note</p>
+						<p class="post-layout__date">
+							<time><em>{publishDate}</em></time>
+						</p>
+						{
+							allTagsData.length > 0 && (
+								<ul class="post-tags__list">
+									{allTagsData.map(tag => (
+										<li class="post-tags__tag">
+											<a href={`/blog/tags/${tag.slug}`}>{tag.title}</a>
+										</li>
+									))}
+								</ul>
+							)
+						}
+						<nav class="post-toc" aria-label="On this page">
+							<p>On this page</p>
+							<ol class="post-toc__list"></ol>
+						</nav>
+						<div class="post-data-mark" aria-hidden="true">
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+					</div>
+				</aside>
+
+				<div class="post-research__main">
+					<header class="post-header__container">
+						<div class="post-header__rule" aria-hidden="true"></div>
+						<h1 id="post-title">{title}</h1>
+						{description && <p class="post-header__description">{description}</p>}
+						{
+							featuredImage && (
+								<figure class="post-layout__figure">
+									<img class="post-layout__img" src={featuredImage} alt={title} />
+								</figure>
+							)
+						}
+					</header>
+
+					<article id="article">
+						<slot />
+					</article>
+				</div>
+			</div>
+		</Container>
+	</section>
 </Layout>
 
+<script>
+	const article = document.querySelector('#article');
+	const toc = document.querySelector('.post-toc');
+	const tocList = document.querySelector('.post-toc__list');
+	const progressBar = document.querySelector('.post-progress__bar');
+
+	if (article instanceof HTMLElement && tocList instanceof HTMLOListElement) {
+		const headings = Array.from(article.querySelectorAll('h2, h3'));
+
+		if (headings.length === 0) {
+			toc?.setAttribute('hidden', '');
+		} else {
+			headings.forEach((heading, index) => {
+				if (!(heading instanceof HTMLElement)) return;
+
+				if (!heading.id) {
+					heading.id = `section-${index + 1}`;
+				}
+
+				const item = document.createElement('li');
+				const link = document.createElement('a');
+
+				link.href = `#${heading.id}`;
+				link.textContent = heading.textContent ?? '';
+				link.className = heading.tagName === 'H3' ? 'post-toc__link--nested' : '';
+
+				item.append(link);
+				tocList.append(item);
+			});
+		}
+	}
+
+	const updatePostProgress = () => {
+		if (!(article instanceof HTMLElement) || !(progressBar instanceof HTMLElement)) {
+			return;
+		}
+
+		const rect = article.getBoundingClientRect();
+		const scrollableDistance = Math.max(rect.height - window.innerHeight, 1);
+		const progress = Math.min(Math.max(-rect.top / scrollableDistance, 0), 1);
+
+		progressBar.style.transform = `scaleY(${progress})`;
+	};
+
+	updatePostProgress();
+	window.addEventListener('scroll', updatePostProgress, { passive: true });
+	window.addEventListener('resize', updatePostProgress);
+</script>
+
 <style>
-  #article {
-    padding-bottom: 3rem;
-  }
-  .post-header__container {
-    max-width: var(--theme-blog-post-header-width);
-    margin: 1rem auto;
-    padding: var(--container-padding);
-  }
-  .post-tags__list {
-    margin: 1rem auto;
-    padding: 0;
-    list-style: none;
-  }
-  .post-tags__tag {
-    text-transform: uppercase;
-  }
-  .post-tags__tag a {
-    font-size: var(--font-size-sm);
-    text-decoration: none;
-  }
-  .post-layout__img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto 1rem auto;
-    border-radius: var(--theme-shape-radius);
-  }
-  .post-layout__date {
-    margin-bottom: 1rem;
-    opacity: 0.84;
-  }
+	.post-research {
+		--post-ink: #071725;
+		--post-teal: #17424b;
+		--post-accent: #d78370;
+		position: relative;
+		width: 100vw;
+		min-height: calc(100svh - 5rem);
+		margin-left: calc(50% - 50vw);
+		padding: clamp(7rem, 10vw, 9.5rem) 0 clamp(5rem, 8vw, 7rem);
+		overflow-x: clip;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(237, 248, 251, 0.68) 36rem),
+			linear-gradient(135deg, rgba(23, 66, 75, 0.1), rgba(215, 131, 112, 0.065) 46%, rgba(255, 255, 255, 0.78)),
+			#fbfbfa;
+	}
+	.post-research::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: url('/assets/images/about/yosemite-about-hero.png');
+		background-size: cover;
+		background-position: center top;
+		opacity: 0.045;
+		filter: saturate(0.82) blur(1px);
+		pointer-events: none;
+	}
+	.post-research::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: linear-gradient(
+			90deg,
+			transparent 0,
+			transparent calc(50% - min(640px, 43vw)),
+			rgba(7, 23, 37, 0.052) calc(50% - min(640px, 43vw)),
+			rgba(7, 23, 37, 0.052) calc(50% - min(640px, 43vw) + 1px),
+			transparent calc(50% - min(640px, 43vw) + 1px),
+			transparent calc(50% + min(640px, 43vw)),
+			rgba(7, 23, 37, 0.052) calc(50% + min(640px, 43vw)),
+			rgba(7, 23, 37, 0.052) calc(50% + min(640px, 43vw) + 1px),
+			transparent calc(50% + min(640px, 43vw) + 1px)
+		);
+		pointer-events: none;
+	}
+	.post-research__layout {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		grid-template-columns: minmax(13rem, 0.46fr) minmax(0, 1.54fr);
+		gap: clamp(2.75rem, 6vw, 6rem);
+		align-items: start;
+		color: var(--post-ink);
+	}
+	.post-research__rail {
+		position: sticky;
+		top: clamp(5rem, 9vw, 7rem);
+	}
+	.post-research__rail-inner {
+		position: relative;
+		min-height: 32rem;
+		padding-left: clamp(1.1rem, 2vw, 1.8rem);
+		border-left: 1px solid rgba(23, 66, 75, 0.16);
+	}
+	.post-progress {
+		position: absolute;
+		left: -1px;
+		top: 2.8rem;
+		width: 1px;
+		height: min(15rem, 38svh);
+		background: rgba(23, 66, 75, 0.12);
+	}
+	.post-progress__bar {
+		position: absolute;
+		inset: 0;
+		transform: scaleY(0);
+		transform-origin: top;
+		background: linear-gradient(180deg, var(--post-teal), var(--post-accent));
+		transition: transform 120ms ease-out;
+	}
+	.post-back__link {
+		display: inline-flex;
+		margin-bottom: 2rem;
+		color: var(--post-teal);
+		font-size: 0.76rem;
+		font-weight: 700;
+		letter-spacing: 0.13em;
+		text-transform: uppercase;
+		text-decoration: none;
+		border-bottom: 1px solid color-mix(in srgb, var(--post-accent) 68%, transparent);
+	}
+	.post-back__link:hover {
+		color: #117d79;
+		border-color: currentColor;
+	}
+	.post-research__eyebrow,
+	.post-toc p {
+		margin-bottom: 0.65rem;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--post-teal);
+	}
+	.post-layout__date {
+		margin-bottom: 1.2rem;
+		font-size: 0.92rem;
+		line-height: 1.35;
+		color: #435560;
+	}
+	.post-layout__date em {
+		font-style: normal;
+	}
+	.post-tags__list {
+		margin: 0 0 2rem;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem 0.6rem;
+	}
+	.post-tags__tag a {
+		font-size: 0.72rem;
+		font-weight: 700;
+		line-height: 1.2;
+		text-decoration: none;
+		color: color-mix(in srgb, var(--theme-muted) 84%, transparent);
+	}
+	.post-tags__tag a::before {
+		content: '/';
+		margin-right: 0.35rem;
+		color: color-mix(in srgb, var(--post-accent) 78%, transparent);
+	}
+	.post-tags__tag a:hover,
+	.post-toc a:hover {
+		color: #117d79;
+	}
+	.post-toc {
+		margin-top: 1.5rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid rgba(23, 23, 23, 0.11);
+	}
+	.post-toc[hidden] {
+		display: none;
+	}
+	.post-toc__list {
+		display: grid;
+		gap: 0.55rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.post-toc a {
+		display: inline-flex;
+		font-size: 0.84rem;
+		line-height: 1.35;
+		text-decoration: none;
+		color: #56666f;
+	}
+	.post-toc__link--nested {
+		padding-left: 0.8rem;
+	}
+	.post-data-mark {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		align-items: end;
+		gap: 0.32rem;
+		width: min(8.75rem, 100%);
+		height: 3.8rem;
+		margin-top: 2.2rem;
+		padding-top: 1.2rem;
+		border-top: 1px solid rgba(23, 23, 23, 0.11);
+	}
+	.post-data-mark span {
+		display: block;
+		background: linear-gradient(180deg, rgba(23, 66, 75, 0.42), rgba(215, 131, 112, 0.38));
+	}
+	.post-data-mark span:nth-child(1) {
+		height: 42%;
+	}
+	.post-data-mark span:nth-child(2) {
+		height: 76%;
+	}
+	.post-data-mark span:nth-child(3) {
+		height: 54%;
+	}
+	.post-data-mark span:nth-child(4) {
+		height: 92%;
+	}
+	.post-research__main {
+		min-width: 0;
+	}
+	.post-header__container {
+		max-width: 58rem;
+		margin-bottom: clamp(2.5rem, 5vw, 4rem);
+	}
+	.post-header__rule {
+		width: 5.2rem;
+		height: 2px;
+		margin-bottom: 1.55rem;
+		background: var(--post-accent);
+	}
+	.post-header__container h1 {
+		max-width: 17ch;
+		margin-bottom: 1.15rem;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: clamp(2.85rem, 4.7vw, 4.85rem);
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: 0;
+		text-wrap: balance;
+		color: var(--post-ink);
+	}
+	.post-header__description {
+		max-width: 42rem;
+		margin: 0;
+		font-size: clamp(1.04rem, 1.24vw, 1.22rem);
+		line-height: 1.72;
+		color: #435560;
+	}
+	.post-layout__figure {
+		position: relative;
+		margin: clamp(1.8rem, 3vw, 2.6rem) 0 0;
+	}
+	.post-layout__figure::after {
+		content: '';
+		position: absolute;
+		right: -1.4rem;
+		bottom: -1.15rem;
+		width: min(13rem, 28%);
+		height: 42%;
+		border-right: 1px solid rgba(23, 66, 75, 0.18);
+		border-bottom: 1px solid rgba(23, 66, 75, 0.18);
+		pointer-events: none;
+	}
+	.post-layout__img {
+		width: 100%;
+		aspect-ratio: 16 / 8.8;
+		object-fit: cover;
+		display: block;
+		border: 1px solid rgba(23, 23, 23, 0.12);
+		border-radius: 0.35rem;
+		box-shadow: 0 18px 48px rgba(7, 23, 37, 0.08);
+	}
+	#article {
+		position: relative;
+		max-width: 46rem;
+		padding-bottom: 3rem;
+	}
+	:global(#article > * + *) {
+		margin-top: 1.18rem;
+	}
+	:global(#article p),
+	:global(#article li) {
+		font-size: clamp(1.02rem, 1.08vw, 1.12rem);
+		line-height: 1.82;
+		color: #263946;
+	}
+	:global(#article p:first-child) {
+		font-family: var(--theme-font-family-serif);
+		font-weight: 600;
+		color: #14283b;
+	}
+	:global(#article p:first-child::first-letter) {
+		float: left;
+		padding: 0.08rem 0.45rem 0 0;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 4.15rem;
+		line-height: 0.82;
+		color: var(--post-teal);
+	}
+	:global(#article h2),
+	:global(#article h3) {
+		max-width: 14ch;
+		margin-top: 2.5rem;
+		color: var(--post-ink);
+		text-wrap: balance;
+	}
+	:global(#article a) {
+		color: #117d79;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.18em;
+	}
+	:global(#article blockquote) {
+		margin: 2rem 0;
+		padding: 0.25rem 0 0.25rem 1.15rem;
+		border-left: 2px solid var(--post-accent);
+		color: #14283b;
+	}
+	@media (max-width: 980px) {
+		.post-research {
+			padding-top: clamp(6.2rem, 15vw, 8rem);
+		}
+		.post-research__layout {
+			grid-template-columns: 1fr;
+			gap: 2.35rem;
+		}
+		.post-research__rail {
+			position: relative;
+			top: auto;
+		}
+		.post-research__rail-inner {
+			min-height: 0;
+			padding-left: 0;
+			border-left: 0;
+		}
+		.post-progress,
+		.post-toc,
+		.post-data-mark {
+			display: none;
+		}
+		.post-back__link {
+			margin-bottom: 1.2rem;
+		}
+		.post-tags__list {
+			margin-bottom: 0;
+		}
+		.post-header__container,
+		#article {
+			max-width: 100%;
+		}
+	}
+	@media (max-width: 700px) {
+		.post-header__container h1 {
+			font-size: clamp(2.35rem, 10vw, 3.2rem);
+		}
+		.post-layout__figure::after {
+			display: none;
+		}
+	}
 </style>

@@ -1,0 +1,134 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage[margin=0.38in]{geometry}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{array}
+
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Hoefler Text}
+\setsansfont{Avenir Next}
+
+\definecolor{text}{HTML}{15191D}
+\definecolor{muted}{HTML}{5F6872}
+\definecolor{rule}{HTML}{4C555D}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\fboxsep}{11pt}
+\setlength{\fboxrule}{0.45pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\newcommand{\cvname}[1]{{\fontsize{22}{25}\selectfont\color{text}#1}}
+\newcommand{\cvmeta}[1]{{\sffamily\fontsize{7.5}{9}\selectfont\color{muted}#1}}
+\newcommand{\sectiontitle}[1]{%
+  \vspace{6pt}
+  {\sffamily\fontsize{7.3}{8.5}\selectfont\addfontfeatures{LetterSpace=9}\MakeUppercase{#1}}\par
+  \vspace{2pt}{\color{rule}\hrule height 0.35pt}\vspace{4pt}
+}
+\newcommand{\subhead}[1]{{\bfseries #1}}
+\newcommand{\cvdate}[1]{{\sffamily\fontsize{7.2}{8.4}\selectfont\color{muted}#1}}
+\newcommand{\detail}[1]{{\fontsize{8.2}{9.6}\selectfont\color{muted}#1}}
+\newcommand{\entry}[4]{%
+  \begin{tabular*}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.72\linewidth}@{\extracolsep{\fill}}>{\raggedleft\arraybackslash}p{0.23\linewidth}@{}}
+    \subhead{#1} & \cvdate{#2} \\
+  \detail{#3} & \cvdate{#4} \\
+  \end{tabular*}
+}
+\newcommand{\roleentry}[3]{%
+  \begin{tabular*}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.75\linewidth}@{\extracolsep{\fill}}>{\raggedleft\arraybackslash}p{0.20\linewidth}@{}}
+    \subhead{#1} & \cvdate{#3} \\
+  \end{tabular*}
+  \detail{#2}\par
+}
+\newcommand{\smallentry}[2]{%
+  \begin{tabular*}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.70\linewidth}@{\extracolsep{\fill}}>{\raggedleft\arraybackslash}p{0.25\linewidth}@{}}
+    {\fontsize{8.2}{9.6}\selectfont #1} & \cvdate{#2} \\
+  \end{tabular*}
+}
+
+\begin{document}
+\noindent\makebox[\textwidth][c]{%
+\fbox{%
+\begin{minipage}[t][9.92in][t]{6.85in}
+\vspace{14pt}
+
+\begin{center}
+  \cvname{Zechong (Paul) Wang}\\[2pt]
+  \cvmeta{M.A. Candidate in Computational Social Science, Economics, University of Chicago}\\[2pt]
+  \cvmeta{\href{mailto:zw2685@uchicago.edu}{zw2685@uchicago.edu}
+  \quad | \quad +1 (917) 821-8972
+  \quad | \quad \href{https://github.com/PaulWang-Uchicago}{github.com/PaulWang-Uchicago}
+  \quad | \quad \href{https://linkedin.com/in/wang1023/}{linkedin.com/in/wang1023/}}
+\end{center}
+
+\vspace{4pt}
+{\color{rule}\hrule height 0.55pt}
+
+\vspace{5pt}
+\sectiontitle{Education}
+\entry
+  {University of Chicago}
+  {Chicago, IL}
+  {M.A. in Computational Social Science, Economics}
+  {Expected Jun. 2026}
+
+\vspace{3pt}
+\entry
+  {New York University}
+  {New York, NY}
+  {B.A. in Mathematics and Economics}
+  {May 2024}
+
+\sectiontitle{Research Interests}
+Corporate Finance; Applied Econometrics; Macro Finance
+
+\sectiontitle{Skills}
+\textbf{Programming and Statistical Software:} Stata, Python, R, MATLAB, Julia, Java, GAUSS, LaTeX\par
+\textbf{Languages:} Chinese (native), English (advanced), French (basic)
+
+\sectiontitle{Research Experience}
+\roleentry
+  {Research Assistant to Professor Richard Hornbeck and Professor Martin Rotemberg}
+  {Project: ``Ownership and Technology Adoption: Evidence from the Census of Manufactures''\\
+  National Bureau of Economic Research}
+  {Mar. 2025--Present}
+
+\vspace{5pt}
+\roleentry
+  {Research Assistant to Professor Aleksandar Stojanovic}
+  {Project: ``Two Decades of China's RMB Internationalization Policy''\\
+  Institute for New Economic Thinking}
+  {Dec. 2021--May 2022}
+
+\vspace{1pt}
+{\color{rule}\hrule height 0.35pt}
+
+\vspace{5pt}
+\begin{minipage}[t]{0.55\linewidth}
+  \sectiontitle{Teaching Experience}
+  \textbf{University of Chicago}\par
+  \smallentry{Teaching Assistant, ``Principles of Macroeconomics,'' Professor Rui Zhao}{Jul.--Aug. 2025}
+  \smallentry{Teaching Assistant, ``Introduction to Money and Banking,'' Professor Kanit Kuevibulvanich}{Jun.--Jul. 2025}
+  \smallentry{Teaching Assistant, ``The Elements of Economic Analysis II,'' Professor Srini Vasudevan}{Jan.--Mar. 2025}
+
+  \vspace{5pt}
+  \textbf{New York University}\par
+  \smallentry{Instructional Grader, ``Math for Economics I,'' Professor Yijun Dong}{Jan.--May 2024}
+  \smallentry{Teaching Assistant, ``Math for Economics I,'' Professor Jingyuan Mo}{Sep.--Dec. 2021}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.38\linewidth}
+  \sectiontitle{Honors and Fellowships}
+  \smallentry{Gargoyle Research Scholarship, University of Chicago}{2024--2026}
+  \smallentry{Founders' Day Award, New York University}{2024}
+  \smallentry{Dean's List, New York University}{2021, 2022}
+\end{minipage}
+
+\end{minipage}%
+}%
+}
+\end{document}

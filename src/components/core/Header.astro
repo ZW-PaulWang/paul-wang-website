@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components'
-const { navData, rightMenu } = Astro.props;
+const { navData, rightMenu, transparent = false } = Astro.props;
 ---
 
 <script type="module">
@@ -39,7 +39,7 @@ const { navData, rightMenu } = Astro.props;
   }
 </script>  
 
-<header id="odysseyNavHeader" class={`${rightMenu ? "header--right" : ``.trim()}`}>
+<header id="odysseyNavHeader" class:list={[rightMenu && 'header--right', transparent && 'header--transparent']}>
   <div class="header-logo-menu__container">
   <button id="menuButton" title="Open Main Menu">
     <span id="menuButtonIconHam">
@@ -74,25 +74,53 @@ const { navData, rightMenu } = Astro.props;
 <style>
   header {
     width: min(calc(var(--container-max-width) + 2rem), calc(100% - 1.5rem));
-    margin: 1rem auto 0;
+    margin: 0 auto;
     padding: 0.85rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
     position: sticky;
-    top: 0.75rem;
+    top: 0;
     z-index: 90;
-    background: var(--theme-glass-bg);
+    background: color-mix(in srgb, var(--theme-bg) 88%, white);
     backdrop-filter: blur(var(--theme-backdrop-blur));
     -webkit-backdrop-filter: blur(var(--theme-backdrop-blur));
-    border: 1px solid var(--theme-glass-border);
-    border-radius: calc(var(--theme-shape-radius) * 0.9);
-    box-shadow: var(--theme-shadow-sm), var(--theme-shadow-inset);
+    border: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-outline) 72%, transparent);
+    border-radius: 0;
+    box-shadow: none;
   }
   header.header--right {
     display: grid;
     grid-template-columns: 1fr auto auto;
+  }
+  header.header--transparent {
+    width: min(calc(var(--container-max-width) + 2rem), calc(100% - 1.5rem));
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+    border-bottom-color: color-mix(in srgb, var(--theme-on-bg) 8%, transparent);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  header.header--transparent nav ul li a {
+    min-height: 2rem;
+    padding: 0 0.65rem;
+    color: #0c2530;
+    opacity: 0.92;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 999px;
+    box-shadow: 0 0.35rem 1.1rem rgba(5, 28, 36, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  header.header--transparent nav ul li a:hover {
+    color: var(--theme-primary);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(17, 125, 121, 0.28);
   }
   .header-logo__link {
     width: fit-content;
@@ -102,10 +130,12 @@ const { navData, rightMenu } = Astro.props;
   .header-logo-menu__container {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.5rem;
     z-index: 100;
   }
   .header-action-item__container {
+    display: flex;
+    align-items: center;
     z-index: 100;
   }
   #menuButton {
@@ -130,18 +160,23 @@ const { navData, rightMenu } = Astro.props;
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 1rem;
   }
   nav ul li a {
     text-decoration: none;
     color: inherit;
-    opacity: 0.82;
+    opacity: 0.78;
     display: inline-flex;
     align-items: center;
-    min-height: 2.55rem;
-    padding: 0 0.95rem;
-    border-radius: 999px;
-    border: 1px solid transparent;
+    min-height: 2.1rem;
+    padding: 0 0.2rem;
+    border-radius: 0;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
     transition:
       background-color var(--theme-transition),
       opacity var(--theme-transition),
@@ -149,12 +184,13 @@ const { navData, rightMenu } = Astro.props;
   }
   nav ul li a:hover {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.45);
-    border-color: var(--theme-outline);
+    color: var(--theme-primary);
+    background: transparent;
+    border-color: currentColor;
   }
   nav ul li a:focus-visible,
   #menuButton:focus-visible {
-    outline: 3px solid rgba(70, 113, 170, 0.32);
+    outline: 3px solid var(--theme-focus-ring);
     outline-offset: 2px;
   }
   @media(max-width: 600px) {
@@ -194,10 +230,11 @@ const { navData, rightMenu } = Astro.props;
      }
     header[mobile-menu-open] nav ul li a {
       min-width: 12rem;
+      padding: 0.9rem 1rem;
       justify-content: center;
-      background: var(--theme-glass-bg);
-      border-color: var(--theme-glass-border);
-      box-shadow: var(--theme-shadow-sm);
+      background: var(--theme-surface-1);
+      border-bottom-color: var(--theme-outline);
+      box-shadow: none;
     }
   }
 </style>

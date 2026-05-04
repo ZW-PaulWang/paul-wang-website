@@ -6,38 +6,33 @@ body {
 body {
 	max-width: 1920px;
 	margin: 0 auto;
-	background: radial-gradient(
-			circle at top left,
-			rgba(255, 255, 255, 0.75),
-			transparent 26%
-		),
-		radial-gradient(
-			circle at top right,
-			rgba(135, 173, 225, 0.16),
-			transparent 24%
-		),
-		linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 32%),
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.72), transparent 18rem),
 		var(--theme-bg);
 	color: var(--theme-on-bg);
 	position: relative;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 }
 
-body::before {
+body::after {
 	content: '';
 	position: fixed;
 	inset: 0;
 	pointer-events: none;
-	background: radial-gradient(
-			circle at 15% 20%,
-			rgba(255, 255, 255, 0.28),
-			transparent 22%
-		),
-		radial-gradient(
-			circle at 85% 12%,
-			rgba(255, 255, 255, 0.18),
-			transparent 18%
-		);
-	opacity: 0.7;
+	background-image: linear-gradient(
+		90deg,
+		transparent 0,
+		transparent calc(50% - min(640px, 43vw)),
+		color-mix(in srgb, var(--theme-on-bg) 5%, transparent) calc(50% - min(640px, 43vw)),
+		color-mix(in srgb, var(--theme-on-bg) 5%, transparent) calc(50% - min(640px, 43vw) + 1px),
+		transparent calc(50% - min(640px, 43vw) + 1px),
+		transparent calc(50% + min(640px, 43vw)),
+		color-mix(in srgb, var(--theme-on-bg) 5%, transparent) calc(50% + min(640px, 43vw)),
+		color-mix(in srgb, var(--theme-on-bg) 5%, transparent) calc(50% + min(640px, 43vw) + 1px),
+		transparent calc(50% + min(640px, 43vw) + 1px)
+	);
+	opacity: 0.26;
 }
 
 main {
@@ -55,37 +50,32 @@ img {
 }
 
 ::selection {
-	background: rgba(70, 113, 170, 0.18);
+	background: var(--theme-selection);
 }
 
 .surface-card,
 .glass-card {
 	border: 1px solid var(--theme-outline);
 	border-radius: var(--theme-shape-radius);
-	box-shadow: var(--theme-shadow-md), var(--theme-shadow-inset);
+	box-shadow: var(--theme-shadow-sm);
 }
 
 .surface-card {
-	background: linear-gradient(
-			180deg,
-			rgba(255, 255, 255, 0.92),
-			rgba(255, 255, 255, 0.6)
-		),
-		var(--theme-surface-1);
+	background: var(--theme-surface-1);
 }
 
 .glass-card {
 	background: var(--theme-glass-bg);
 	backdrop-filter: blur(var(--theme-backdrop-blur));
 	-webkit-backdrop-filter: blur(var(--theme-backdrop-blur));
-	border-color: var(--theme-glass-border);
+	border-color: var(--theme-outline);
 }
 
 .eyebrow {
 	margin-bottom: 0.65rem;
-	font-size: 0.8rem;
+	font-size: 0.76rem;
 	font-weight: 700;
-	letter-spacing: 0.12em;
+	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	color: var(--theme-muted);
 }
@@ -101,14 +91,13 @@ img {
 }
 
 .info-chip {
-	padding: 0.55rem 0.85rem;
+	padding: 0.45rem 0.7rem;
 	display: inline-flex;
 	align-items: center;
 	gap: 0.45rem;
 	border: 1px solid var(--theme-outline);
-	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.5);
-	box-shadow: var(--theme-shadow-sm);
+	border-radius: calc(var(--theme-button-border-radius) * 0.8);
+	background: var(--theme-surface-1);
 	font-size: 0.88rem;
 	font-weight: 700;
 	line-height: 1;

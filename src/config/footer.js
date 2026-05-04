@@ -18,36 +18,19 @@ export const footerSocials = [
 
 export const footerLists = [
 	{
-		title: 'Explore',
+		title: 'Site',
 		items: [
-			{
-				title: 'Research',
-				slug: '/research',
-			},
 			{
 				title: 'Blog',
 				slug: '/blog',
 			},
 			{
-				title: 'Travel Atlas',
-				slug: '/photograph',
+				title: 'About',
+				slug: '/about-me',
 			},
-		],
-	},
-	{
-		title: 'More',
-		items: [
 			{
 				title: 'Tennis',
 				slug: '/tennis',
-			},
-			{
-				title: 'LinkedIn',
-				slug: 'https://www.linkedin.com/in/wang1023/',
-			},
-			{
-				title: 'GitHub',
-				slug: 'https://github.com/ZW-PaulWang',
 			},
 		],
 	},
@@ -58,10 +41,6 @@ export const footerLists = [
 				title: 'Email',
 				slug: 'mailto:zw2685@uchicago.edu',
 			},
-			{
-				title: 'Home',
-				slug: '/',
-			}
 		],
 	},
 ];
